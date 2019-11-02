@@ -66,4 +66,13 @@ router.post('/editproduct', function(req, res, next) {
     .catch(err => console.log(err));
 });
 
+router.post('/deleteproduct', function(req, res, next) {
+  const prodId = req.body.productId;
+  Product.findByIdAndRemove(prodId)
+    .then(() => {
+      console.log(prodId);
+      res.json('deleted');
+    })
+});
+
 module.exports = router;

@@ -3,16 +3,18 @@ var router = express.Router();
 var Product=require('../models/productsmodel');
 
 /* GET users listing. */
-router.post('/products', function(req, res, next) {
+router.post('/addproduct', function(req, res, next) {
   const title = req.body.title;
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
+  const userId = req.body.userId;
   const product = new Product({
     title: title,
     price: price,
     description: description,
-    imageUrl: imageUrl
+    imageUrl: imageUrl,
+    userId:userId
   });
   product
     .save()
@@ -25,7 +27,7 @@ router.post('/products', function(req, res, next) {
 });
 
 router.get('/products', function(req, res, next) {
-  Product.find()
+  Product.find().populate()
   .then(products => {
     console.log(products);
     res.send(products);

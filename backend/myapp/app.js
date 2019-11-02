@@ -6,7 +6,9 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var productsRout = require('./routes/productsrout');
-
+var userrout = require('./routes/userrout');
+var cartrout = require('./routes/cartrouter');
+var User = require('./models/usermodel');
 var app = express();
 mongoose.connect('mongodb://localhost:27017/project4', { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
   console.log("connected");
@@ -22,9 +24,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use((req, res, next) => {
+  User.findById('5dbda5d9d766cd187801e4b7')
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => console.log(err));
+});
 app.use('/', indexRouter);
 app.use('/', productsRout);
+app.use('/', userrout);
+app.use('/', cartrout);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

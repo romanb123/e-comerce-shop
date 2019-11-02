@@ -44,4 +44,26 @@ router.post('/singleproduct/:productId', function(req, res, next) {
     .catch(err => console.log(err));
 });
 
+router.post('/editproduct', function(req, res, next) {
+  const prodId = req.body.productId;
+  const updatedTitle = req.body.title;
+  const updatedPrice = req.body.price;
+  const updatedImageUrl = req.body.imageUrl;
+  const updatedDesc = req.body.description;
+
+  Product.findById(prodId)
+    .then(product => {
+      product.title = updatedTitle;
+      product.price = updatedPrice;
+      product.description = updatedDesc;
+      product.imageUrl = updatedImageUrl;
+      return product.save();
+    })
+    .then(result => {
+      console.log(result);
+      res.json('edited');
+    })
+    .catch(err => console.log(err));
+});
+
 module.exports = router;

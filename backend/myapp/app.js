@@ -26,13 +26,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
-  User.findById('5dbda5d9d766cd187801e4b7')
+  var usrtid=req.body.userid;
+  User.findById(usrtid)
     .then(user => {
       req.user = user;
       next();
     })
     .catch(err => console.log(err));
 });
+// app.use((req, res, next) => {
+//  console.log(req.body);
+// });
 app.use('/', indexRouter);
 app.use('/', productsRout);
 app.use('/', userrout);

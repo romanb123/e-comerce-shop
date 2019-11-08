@@ -27,7 +27,19 @@ router.post('/addtoorder', function(req, res, next) {
       return req.user.clearCart();
     })
     .then(() => {
-      res.redirect('/orders');
+      res.json('order created');
+    })
+    .catch(err => console.log(err));
+  });
+
+
+
+  router.get('/showorders', function(req, res, next) {
+    Order.find({ 'user.userId': req.user._id })
+    .then(orders => {
+      res.json({
+        orders: orders
+      });
     })
     .catch(err => console.log(err));
   });

@@ -19,4 +19,33 @@ router.post('/addtocart', function(req, res, next) {
       });
 });
 
+router.post('/deletefromcart', function(req, res, next) {
+  const prodId = req.body.productId;
+  req.user
+    .removeFromCart(prodId)
+    .then(result => {
+      res.json({message:'/deleted',product:result});
+    })
+    .catch(err => console.log(err));
+});
+
+
+
+
+
+
+
+
+router.get('/viewcart', function(req, res, next) {
+    req.user
+      .populate('cart.items.productId')
+      .execPopulate()
+      .then(user => {
+        const products = user.cart.items;
+        res.json(products);
+      })
+      .catch(err => console.log(err));
+
+});
+
 module.exports = router;

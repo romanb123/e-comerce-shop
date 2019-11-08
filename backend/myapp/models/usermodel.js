@@ -7,6 +7,7 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  password: { type: String, required: true },
   email: {
     type: String,
     required: true
@@ -51,7 +52,7 @@ userSchema.methods.addToCart = function(product) {
     this.cart.items = updatedCartItems;
     return this.save();
   };
-  
+
   userSchema.methods.clearCart = function() {
     this.cart = { items: [] };
     return this.save();

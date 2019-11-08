@@ -1,25 +1,72 @@
 var express = require('express');
 var router = express.Router();
+const bcrypt = require("bcrypt");
+const jwt=require("jsonwebtoken");
 var User=require('../models/usermodel');
 
 /* GET users listing. */
 router.post('/register', function(req, res, next) {
   const name = req.body.name;
   const email = req.body.email;
-  const user = new User({
-    name: name,
-    email: email,
-    cart: {
-        items:[]
-    }
+  const password = req.body.password;
+  bcrypt.hash(req.body.password, 10).then(hash => {
+    const user = new User({
+      name: name,
+      email: email,
+      password:hash,
+      cart: {
+          items:[]
+      }
+    });
+      user
+          .save()
+          .then(result => {
+              res.status(201).json({
+                  message: "User created!",
+                  result: result
+              });
+          })
+          .catch(err => {
+              res.status(500).json({
+                  error: err
+              });
+          });
   });
-  user
-    .save()
+});
+
+router.post("/login", (req, res, next) => {
+  let fetchedUser;
+  User.findOne({ email: req.body.email })
+    .then(user => {
+      if (!user) {
+        return res.status(401).json({
+          message: "Auth failed"
+        });
+      }
+      fetchedUser = user;
+      return bcrypt.compare(req.body.password, user.password);
+    })
     .then(result => {
-    res.send(result);
+      if (!result) {
+        return res.status(401).json({
+          message: "Auth failed"
+        });
+      }
+      const token = jwt.sign(
+        { email: fetchedUser.email, userId: fetchedUser._id },
+        "secret_this_should_be_longer",
+        { expiresIn: "1h" }
+      );
+      res.status(200).json({
+        token: token,
+        expiresIn: 3600
+      });
     })
     .catch(err => {
-      console.log(err);
+        comsole.log(err);
+      return res.status(401).json({
+        message: "Auth failed"
+      });
     });
 });
 

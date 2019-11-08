@@ -1,7 +1,0 @@
-<mat-toolbar color="primary"><a routerLink='/'>My App</a><span></span> <button *ngIf="userIsAuthenticated"
-        routerLink='/addpost' mat-raised-button color="warn">addpost</button><button *ngIf="!userIsAuthenticated"
-        routerLink='/login' mat-raised-button color="warn">login</button>
-    <button *ngIf="!userIsAuthenticated" routerLink='/register' mat-raised-button color="warn">register</button>
-    <button *ngIf="userIsAuthenticated" mat-button (click)="onLogout()">Logout</button>
-
-</mat-toolbar>

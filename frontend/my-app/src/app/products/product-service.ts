@@ -52,10 +52,10 @@ export class Productservice {
         product.append('price', price);
         product.append('image', image, name);
         
-        this.http.post<{ product: any }>('http://localhost:3000/addproduct',product).subscribe((response) => {
-            console.log(response.product.id);
+        this.http.post<any>('http://localhost:3000/addproduct',product).subscribe((response) => {
+            console.log(response);
             const product: Product = { 
-                id: response.product.id,name:name, image: response.product.image,category:category,
+                id: response._id,name:name, image: response.image,category:category,
                 price:price, 
             }
             this.products.push(product);

@@ -1,63 +1,80 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormControlName } from '@angular/forms';
-import { Postservice } from '../product-service';
+import { Productservice } from '../product-service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Product } from '../productmodel';
 import {typecheck} from './imagetype-check';
 
 
 @Component({
-  selector: 'post-create-component',
+  selector: 'product-create-component',
   templateUrl: './product-create-component.html',
   styleUrls: ['./product-create-component.css']
 })
 export class ProductCreateComponent {
   private mode = 'create';
   private postid: string = null;
-  post: Post;
+  product: Product;
   loading = false;
   form: FormGroup;
   previmage: string;
+  // id: string,title: string,price: string, description: string, image: File,category: string,userId:string
 
-  constructor(public postservice: Postservice, public route: ActivatedRoute) { }
+  
+  constructor(public productservice: Productservice, public route: ActivatedRoute) { }
   ngOnInit() {
     this.form = new FormGroup({
-      title: new FormControl(null, {
+      id: new FormControl(null, {
         validators: [Validators.required, Validators.minLength(3)]
       }),
-      body: new FormControl(null, { validators: [Validators.required] }),
-      image: new FormControl(null, { validators: [Validators.required],asyncValidators:[typecheck] })
+      title: new FormControl(null, { validators: [Validators.required] }),
+      price: new FormControl(null, { validators: [Validators.required] }),
+      description: new FormControl(null, { validators: [Validators.required] }),
+      image: new FormControl(null, { validators: [Validators.required],asyncValidators:[typecheck] }),
+      category: new FormControl(null, { validators: [Validators.required] }),
+      userid: new FormControl(null, { validators: [Validators.required] }),
+      
 
     });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has('postid')) {
-        this.mode = 'edit';
-        this.postid = paramMap.get('postid');
-        this.loading = true;
-        this.postservice.gesingle(this.postid).subscribe(post => {
-          this.loading = false;
-          this.post = { id: post._id, title: post.title, body: post.body,imagePath: post.imagePath };
-          this.form.setValue({ title: this.post.title, body: this.post.body, image:this.post.imagePath });
+      // if (paramMap.has('postid')) {
+      //   this.mode = 'edit';
+      //   this.postid = paramMap.get('postid');
+      //   this.loading = true;
+      //   this.postservice.gesingle(this.postid).subscribe(post => {
+      //     this.loading = false;
+      //     this.product = { id: post._id, title: post.title, body: post.body,imagePath: post.imagePath };
+      //     this.form.setValue({ title: this.product.title, body: this.product.body, image:this.product.imagePath });
 
-        });
-      } else {
+      //   });
+      // } else {
         this.mode = 'create';
         this.postid = null;
-      }
+     
     });
   }
 
 
-  onAddPost() {
+  onAddPproduct() {
     if (this.form.invalid) {
       return;
     }
     this.loading = true;
     if (this.mode === "create") {
-      this.postservice.addpost(this.form.value.title, this.form.value.body,this.form.value.image);
-    } else {
-      this.postservice.updatepost(this.postid, this.form.value.title, this.form.value.body,this.form.value.image);
+      this.productservice.addproduct(
+        this.form.value.id,
+        this.form.value.title,
+        this.form.value.price,
+        this.form.value.description,
+        this.form.value.image,
+        this.form.value.category,
+        this.form.value.userid,
+       
+         );
     }
+    //  else {
+    //   this.postservice.updatepost(this.postid, this.form.value.title, this.form.value.body,this.form.value.image);
+    // }
     this.form.reset();
   };
   onfilepick(e: Event) {

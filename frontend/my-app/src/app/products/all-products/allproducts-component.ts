@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { Post } from '../productmodel';
-import { Postservice } from '../product-service';
+import { Product } from '../productmodel';
+import { Productservice } from '../product-service';
 import { AuthService } from "../../auth/auth.servise";
 
 import { Subscription } from 'rxjs';
@@ -9,24 +9,24 @@ import { Subscription } from 'rxjs';
   templateUrl: './allproducts.html',
 })
 export class Allproductscomponent implements OnInit, OnDestroy {
-  posts: Post[] = [];
+  products: Product[] = [];
   private postsub: Subscription;
   loading = false;
   userIsAuthenticated = false;
   private postsSub: Subscription;
   private authStatusSub: Subscription;
 
-  Postservice: Postservice;
-  constructor(Postservice: Postservice,private authService: AuthService) {
-    this.Postservice = Postservice;
+  productservice: Productservice;
+  constructor(productservice: Productservice,private authService: AuthService) {
+    this.productservice = productservice;
   }
   ngOnInit() {
     this.loading = true;
-    this.Postservice.getpost();
-    this.postsub = this.Postservice.postUpdatelistener()
-      .subscribe((Post: Post[]) => {
+    this.productservice.getproduct;
+    this.postsub = this.productservice.postUpdatelistener()
+      .subscribe((Product: Product[]) => {
         this.loading = false;
-        this.posts = Post;
+        this.products = Product;
       });
       this.userIsAuthenticated = this.authService.getIsAuth();
       this.authStatusSub = this.authService
@@ -35,9 +35,9 @@ export class Allproductscomponent implements OnInit, OnDestroy {
           this.userIsAuthenticated = isAuthenticated;
         });
   }
-  onDelete(postid:string){
-this.Postservice.deletepost(postid);
-  }
+//   onDelete(postid:string){
+// this.productservice.deletepost(postid);
+//   }
   ngOnDestroy() {
     this.postsub.unsubscribe();
   }

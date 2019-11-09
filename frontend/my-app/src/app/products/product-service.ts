@@ -9,7 +9,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Injectable({ providedIn: 'root' })
 
 
-export class Postservice {
+export class Productservice {
     private products: Product[] = [];
     private UpdatedProduct = new Subject<Product[]>();
     constructor(private http: HttpClient, private router: Router) {

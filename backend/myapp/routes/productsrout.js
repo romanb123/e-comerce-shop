@@ -4,26 +4,28 @@ var Product=require('../models/productsmodel');
 
 /* GET users listing. */
 router.post('/addproduct', function(req, res, next) {
-  const title = req.body.title;
-  const imageUrl = req.body.imageUrl;
-  const price = req.body.price;
-  const description = req.body.description;
-  const userId = req.body.userId;
-  const product = new Product({
-    title: title,
-    price: price,
-    description: description,
-    imageUrl: imageUrl,
-    userId:userId
-  });
-  product
-    .save()
-    .then(result => {
-    res.send(result);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  console.log(req.body);
+  res.send('gotit')
+  // const title = req.body.title;
+  // const imageUrl = req.body.imageUrl;
+  // const price = req.body.price;
+  // const description = req.body.description;
+  // const userId = req.body.userId;
+  // const product = new Product({
+  //   title: title,
+  //   price: price,
+  //   description: description,
+  //   imageUrl: imageUrl,
+  //   userId:userId
+  // });
+  // product
+  //   .save()
+  //   .then(result => {
+  //   res.send(result);
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //   });
 });
 
 router.get('/products', function(req, res, next) {

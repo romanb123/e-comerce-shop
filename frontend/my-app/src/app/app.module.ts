@@ -1,23 +1,40 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
+import {ReactiveFormsModule,FormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { CartComponent } from './cart/cart.component';
-import { HomeComponent } from './home/home.component';
-import { HttpClientModule } from '@angular/common/http'; 
+import {MatCardModule} from '@angular/material/card';
+import { HttpClientModule } from '@angular/common/http';
+import { AdminareaComponent } from './adminareacomponent/adminarea.component';
+import { UserareaComponent } from './userareacomponent/userarea.component'; 
+import {MatInputModule,MatMenuModule,MatToolbarModule,MatExpansionModule,MatButtonModule,MatProgressSpinnerModule} from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    CartComponent,
-    HomeComponent
+    AdminareaComponent,
+    UserareaComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    MatInputModule,
+    MatMenuModule,
+    MatExpansionModule,
+    MatToolbarModule,
+    HttpClientModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatCardModule
+
     
   ],
   providers: [],

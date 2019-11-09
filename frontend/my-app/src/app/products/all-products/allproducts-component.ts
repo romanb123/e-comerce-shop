@@ -1,14 +1,14 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { Post } from '../postmodel';
-import { Postservice } from '../post-service';
+import { Post } from '../productmodel';
+import { Postservice } from '../product-service';
 import { AuthService } from "../../auth/auth.servise";
 
 import { Subscription } from 'rxjs';
 @Component({
-  selector: 'posts-list',
-  templateUrl: './post-list-component.html',
+  selector: 'allproducts',
+  templateUrl: './allproducts.html',
 })
-export class PostsListComponent implements OnInit, OnDestroy {
+export class Allproductscomponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   private postsub: Subscription;
   loading = false;

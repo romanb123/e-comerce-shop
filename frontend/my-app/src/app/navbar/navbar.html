@@ -1,7 +1,25 @@
-<mat-toolbar color="primary"><a routerLink='/'>My App</a><span></span> <button *ngIf="userIsAuthenticated"
+<!-- <mat-toolbar color="primary"><a routerLink='/'>My App</a><span></span> <button *ngIf="userIsAuthenticated"
         routerLink='/addpost' mat-raised-button color="warn">addpost</button><button *ngIf="!userIsAuthenticated"
         routerLink='/login' mat-raised-button color="warn">login</button>
     <button *ngIf="!userIsAuthenticated" routerLink='/register' mat-raised-button color="warn">register</button>
     <button *ngIf="userIsAuthenticated" mat-button (click)="onLogout()">Logout</button>
 
-</mat-toolbar>
+</mat-toolbar> -->
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <!-- Brand/logo -->
+    <a class="navbar-brand" routerLink='/'>allproducts</a>
+    
+    <!-- Links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link"  routerLink='/addpost'>addpost</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink='/login'>login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink='/register'>register</a>
+      </li>
+    </ul>
+  </nav>

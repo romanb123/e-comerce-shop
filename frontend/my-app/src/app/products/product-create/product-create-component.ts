@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormControlName } from '@angular/forms';
-import { Postservice } from '../post-service';
+import { Postservice } from '../product-service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Post } from '../postmodel';
+import { Product } from '../productmodel';
 import {typecheck} from './imagetype-check';
 
 
 @Component({
   selector: 'post-create-component',
-  templateUrl: './post.create.component.html',
-  styleUrls: ['./post-create-component.css']
+  templateUrl: './product-create-component.html',
+  styleUrls: ['./product-create-component.css']
 })
-export class PostCreateComponent {
+export class ProductCreateComponent {
   private mode = 'create';
   private postid: string = null;
   post: Post;

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { PostCreateComponent } from './posts/post-create/post-create-component';
+import { ProductCreateComponent } from './products/product-create/product-create-component';
 import {ReactiveFormsModule,FormsModule} from '@angular/forms';
 import {MatInputModule,MatMenuModule,MatToolbarModule,MatExpansionModule,MatButtonModule,MatProgressSpinnerModule} from '@angular/material';
 import { AppRoutingModule } from './app-routing.module';
@@ -9,14 +9,14 @@ import {HttpClientModule,HTTP_INTERCEPTORS} from '@angular/common/http';
 import {MatCardModule} from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NavbarComponent} from './navbar/navbar';
-import {PostsListComponent} from './posts/post-list/post-list-component';
+import {Allproductscomponent} from './products/all-products/allproducts-component';
 import {Logincomponent} from './auth/login/login.component';
 import {RegisterComponent} from './auth/register/register.component';
 import { Addtoken } from "./auth/auth.addtoken";
 
 @NgModule({
   declarations: [
-    AppComponent,PostCreateComponent,NavbarComponent,PostsListComponent,Logincomponent,RegisterComponent
+    AppComponent,ProductCreateComponent,NavbarComponent,Allproductscomponent,Logincomponent,RegisterComponent
   ],
   imports: [
     BrowserModule,

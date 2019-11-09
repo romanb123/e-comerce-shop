@@ -2,18 +2,18 @@
   <mat-spinner *ngIf="loading"></mat-spinner>
   <form [formGroup]="form" (submit)="onAddPproduct()" *ngIf="!loading">
     <!-- ================================================================================================================ -->
-    <!-- id -->
+    <!-- name -->
     <!-- ================================================================================================================ -->
     <mat-form-field class="example-full-width">
-      <input matInput type="text" formControlName="id" placeholder="id">
-      <mat-error *ngIf="form.get('id').invalid">please enter a id</mat-error>
+      <input matInput type="text" formControlName="name" placeholder="name">
+      <mat-error *ngIf="form.get('name').invalid">name</mat-error>
     </mat-form-field>
     <!-- ================================================================================================================ -->
-    <!-- title -->
+    <!-- category -->
     <!-- ================================================================================================================ -->
     <mat-form-field class="example-full-width">
-      <input matInput type="text" formControlName="title" placeholder="post title">
-      <mat-error *ngIf="form.get('title').invalid">please enter a title</mat-error>
+      <input matInput type="text" formControlName="category" placeholder="category">
+      <mat-error *ngIf="form.get('category').invalid">category</mat-error>
     </mat-form-field>
     <!-- ================================================================================================================ -->
     <!-- price -->
@@ -23,13 +23,6 @@
       <mat-error *ngIf="form.get('price').invalid">please enter a title</mat-error>
     </mat-form-field>
     <!-- ================================================================================================================ -->
-    <!-- description -->
-    <!-- ================================================================================================================ -->
-    <mat-form-field class="example-full-width">
-      <input matInput type="text" formControlName="description" placeholder="description">
-      <mat-error *ngIf="form.get('description').invalid">please enter a title</mat-error>
-    </mat-form-field>
-    <!-- ================================================================================================================ -->
     <!-- image -->
     <!-- ================================================================================================================ -->
     <button mat-button type="button" (click)="addfile.click()">addfile</button>
@@ -37,22 +30,8 @@
     <div *ngIf="previmage!=='' && previmage && form.get('image').valid">
       <img [src]="previmage" [alt]="form.value.title">
     </div>
-    <!-- ================================================================================================================ -->
-    <!-- category -->
-    <!-- ================================================================================================================ -->
-    <mat-form-field class="example-full-width">
-      <input matInput type="text" formControlName="category" placeholder="category">
-      <mat-error *ngIf="form.get('category').invalid">please enter a title</mat-error>
-    </mat-form-field>
-    <!-- ================================================================================================================ -->
-    <!-- userid -->
-    <!-- ================================================================================================================ -->
-    <mat-form-field class="example-full-width">
-        <input matInput type="text" formControlName="userid" placeholder="userid">
-        <mat-error *ngIf="form.get('userid').invalid">please enter a title</mat-error>
-      </mat-form-field>
     <br>
-    <button type="submit">addpost</button>
+    <button type="submit">addproduct</button>
   </form>
 
   <p>{{newpost}}</p>

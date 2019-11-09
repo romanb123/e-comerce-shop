@@ -24,16 +24,14 @@ export class ProductCreateComponent {
   constructor(public productservice: Productservice, public route: ActivatedRoute) { }
   ngOnInit() {
     this.form = new FormGroup({
-      id: new FormControl(null, {
-        validators: [Validators.required, Validators.minLength(3)]
-      }),
-      title: new FormControl(null, { validators: [Validators.required] }),
-      price: new FormControl(null, { validators: [Validators.required] }),
-      description: new FormControl(null, { validators: [Validators.required] }),
-      image: new FormControl(null, { validators: [Validators.required],asyncValidators:[typecheck] }),
+      name: new FormControl(null, { validators: [Validators.required] }), 
       category: new FormControl(null, { validators: [Validators.required] }),
-      userid: new FormControl(null, { validators: [Validators.required] }),
-      
+       price: new FormControl(null, { validators: [Validators.required] }),
+       image: new FormControl(null, { validators: [Validators.required],asyncValidators:[typecheck] }),
+        // const name = req.body.name;
+  // const category = req.body.category;
+  // const price = req.body.price;
+  // const imagePath=url+"/images/"+req.file.filename;
 
     });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -53,7 +51,11 @@ export class ProductCreateComponent {
      
     });
   }
-
+ 
+  // const name = req.body.name;
+  // const category = req.body.category;
+  // const price = req.body.price;
+  // const imagePath=url+"/images/"+req.file.filename;
 
   onAddPproduct() {
     if (this.form.invalid) {
@@ -62,14 +64,11 @@ export class ProductCreateComponent {
     this.loading = true;
     if (this.mode === "create") {
       this.productservice.addproduct(
-        this.form.value.id,
-        this.form.value.title,
-        this.form.value.price,
-        this.form.value.description,
-        this.form.value.image,
+        this.form.value.name,
         this.form.value.category,
-        this.form.value.userid,
-       
+        this.form.value.price,
+        this.form.value.image,
+        
          );
     }
     //  else {

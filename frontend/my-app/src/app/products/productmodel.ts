@@ -1,8 +1,12 @@
 export interface Product {
-    id: string,
-    title: string,
-    price: string,
-    imagePath:string,
+    id:string
+    name: string,
     category: string,
-    userId:string;
+    price: string,
+    image:string,
 }
+
+  // const name = req.body.name;
+  // const category = req.body.category;
+  // const price = req.body.price;
+  // const imagePath=url+"/images/"+req.file.filename;

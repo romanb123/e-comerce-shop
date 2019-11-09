@@ -40,21 +40,23 @@ export class Productservice {
     gesingle(id: string) {
         return this.http.get<{ _id: string, body: string, title: string,imagePath: string }>('http://localhost:3000/singlepost/' + id);
     }
-
-    addproduct(id: string,title: string,price: string, description: string, image: File,category: string,userId:string) {
+ 
+  // const name = req.body.name;
+  // const category = req.body.category;
+  // const price = req.body.price;
+  // const imagePath=url+"/images/"+req.file.filename;
+    addproduct(name: string,category: string,price: string, image: File) {
         const product = new FormData();
-        product.append('id', id);
-        product.append('price', price);
-        product.append('description', description);
-        product.append('image', image, title);
+        product.append('name', name);
         product.append('category', category);
-        product.append('userId', userId);
+        product.append('price', price);
+        product.append('image', image, name);
         
-        this.http.post<{ product: Product }>('http://localhost:3000/addproduct',product).subscribe((response) => {
+        this.http.post<{ product: any }>('http://localhost:3000/addproduct',product).subscribe((response) => {
             console.log(response.product.id);
             const product: Product = { 
-                id: response.product.id,title:title, imagePath: response.product.imagePath,price:price,
-                category:category, userId:userId
+                id: response.product.id,name:name, image: response.product.image,category:category,
+                price:price, 
             }
             this.products.push(product);
             this.UpdatedProduct.next([...this.products]);
@@ -62,32 +64,26 @@ export class Productservice {
         })
 
     }
-    // id: string,
-    // title: string,
-    // price: string,
-    // description: string,
-    // imagePath:response.post.imagePath,
-    // category: string,
-    // userId:string;
-    updateproduct(id: string, title: string, price: string,description: string,category: string,userId: string,image: File | string ) {
+   // const name = req.body.name;
+  // const category = req.body.category;
+  // const price = req.body.price;
+  // const imagePath=url+"/images/"+req.file.filename;
+    updateproduct(id: string, name:string, price: string,category:string ,image: File | string ) {
        let productData: Product | FormData;
     if (typeof image === "object") {
         productData = new FormData();
         productData.append("id", id);
-        productData.append("title", title);
+        productData.append("name", name);
         productData.append("price", price);
-        productData.append("description", description);
         productData.append("category", category);
-        productData.append("userId", userId);
-        productData.append("image", image, title);
+        productData.append("image", image, name);
     } else {
         productData = {
             id: id,
-            title: title,
+            name: name,
             price: price,
             category: category,
-            userId: userId,
-        imagePath: image
+            image: image
       };
     }
         this.http.put('http://localhost:3000/posts/' + id, productData).subscribe(response => {
@@ -97,11 +93,10 @@ export class Productservice {
             });
             const product: Product = {
                 id: id,
-                title: title,
+                name: name,
                 price: price,
                 category: category,
-                userId: userId,
-            imagePath: ""
+                image: ""
               };
             updatedproducts[oldroductid] = product;
             this.products = updatedproducts;

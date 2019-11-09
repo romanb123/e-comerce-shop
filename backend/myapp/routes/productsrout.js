@@ -1,31 +1,53 @@
 var express = require('express');
 var router = express.Router();
 var Product=require('../models/productsmodel');
+const multer = require("multer");
 
+const type = {
+  "image/png": "png",
+  "image/jpeg": "jpg",
+  "image/jpg": "jpg"
+};
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      const isValid = type[file.mimetype];
+      let error = new Error("Invalid mime type");
+      if (isValid) {
+        error = null;
+      }
+      cb(error, "./images");
+  },
+  filename: (req, file, cb) => {
+      const name = file.originalname
+          .toLowerCase()
+          .split(" ")
+          .join("-");
+      const ext = type[file.mimetype];
+      cb(null, name + "-" + Date.now() + "." + ext);
+  }
+});
 /* GET users listing. */
-router.post('/addproduct', function(req, res, next) {
-  console.log(req.body);
-  res.json('gotit');
-  // const title = req.body.title;
-  // const imageUrl = req.body.imageUrl;
-  // const price = req.body.price;
-  // const description = req.body.description;
-  // const userId = req.body.userId;
-  // const product = new Product({
-  //   title: title,
-  //   price: price,
-  //   description: description,
-  //   imageUrl: imageUrl,
-  //   userId:userId
-  // });
-  // product
-  //   .save()
-  //   .then(result => {
-  //   res.send(result);
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //   });
+router.post('/addproduct',multer({storage:storage}).single("image"), function(req, res, next) {
+  const url=req.protocol+'://'+req.get("host");
+  const name = req.body.name;
+  const category = req.body.category;
+  const price = req.body.price;
+  const image=url+"/images/"+req.file.filename;
+  const product = new Product({
+    name: name,
+    category: category,
+    price: price,
+    image: image,
+  });
+  product
+    .save()
+    .then(result => {
+    res.send(result);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 router.get('/products', function(req, res, next) {

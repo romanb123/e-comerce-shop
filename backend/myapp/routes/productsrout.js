@@ -5,7 +5,7 @@ var Product=require('../models/productsmodel');
 /* GET users listing. */
 router.post('/addproduct', function(req, res, next) {
   console.log(req.body);
-  res.send('gotit')
+  res.json('gotit');
   // const title = req.body.title;
   // const imageUrl = req.body.imageUrl;
   // const price = req.body.price;

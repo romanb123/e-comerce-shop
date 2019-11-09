@@ -42,15 +42,15 @@ export class Productservice {
     }
 
     addproduct(id: string,title: string,price: string, description: string, image: File,category: string,userId:string) {
-        const postdata = new FormData();
-        postdata.append('id', id);
-        postdata.append('price', price);
-        postdata.append('description', description);
-        postdata.append('image', image, title);
-        postdata.append('category', category);
-        postdata.append('userId', userId);
+        const product = new FormData();
+        product.append('id', id);
+        product.append('price', price);
+        product.append('description', description);
+        product.append('image', image, title);
+        product.append('category', category);
+        product.append('userId', userId);
         
-        this.http.post<{ product: Product }>('http://localhost:3000/posts', postdata).subscribe((response) => {
+        this.http.post<{ product: Product }>('http://localhost:3000/addproduct',product).subscribe((response) => {
             console.log(response.product.id);
             const product: Product = { 
                 id: response.product.id,title:title, imagePath: response.product.imagePath,price:price,
@@ -76,6 +76,7 @@ export class Productservice {
         productData.append("id", id);
         productData.append("title", title);
         productData.append("price", price);
+        productData.append("description", description);
         productData.append("category", category);
         productData.append("userId", userId);
         productData.append("image", image, title);

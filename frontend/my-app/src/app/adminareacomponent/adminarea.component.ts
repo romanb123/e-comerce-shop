@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Product} from '../productmodel';
 import { NgForm } from "@angular/forms";
-
 import { FormGroup, FormControl, Validators, FormControlName } from '@angular/forms';
 import { Adminservice } from '../adminareacomponent/adminservices/adminservice.service';
 import { ActivatedRoute, ParamMap } from "@angular/router";
@@ -16,6 +15,11 @@ export class AdminareaComponent implements OnInit {
   enteredTitle = "";
   enteredContent = "";
   product: Product;
+  isLoading = false;
+  form: FormGroup;
+  imagePreview: string;
+  private mode = "create";
+  private postId: string;
 
 
   constructor(
@@ -24,17 +28,71 @@ export class AdminareaComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.form = new FormGroup({
+      title: new FormControl(null, {
+        validators: [Validators.required, Validators.minLength(3)]
+      }),
+      content: new FormControl(null, { validators: [Validators.required] }),
+      image: new FormControl(null, {
+        validators: [Validators.required],
+      })
+    });
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has("postId")) {
+        this.mode = "edit";
+        this.postId = paramMap.get("postId");
+        this.isLoading = true;
+        this.adminservice.addproduct(this.postId).subscribe(postData => {
+          this.isLoading = false;
+          this.post = {
+            id: postData._id,
+            title: postData.title,
+            content: postData.content,
+            imagePath: postData.imagePath
+          };
+          this.form.setValue({
+            title: this.post.title,
+            content: this.post.content,
+            image: this.post.imagePath
+          });
+        });
+      } else {
+        this.mode = "create";
+        this.postId = null;
+      }
+    });
   }
 
-  onAddProduct(form: NgForm) {
-    if (form.invalid) {
+  onImagePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.form.patchValue({ image: file });
+    this.form.get("image").updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  onSavePost() {
+    if (this.form.invalid) {
       return;
     }
-
- 
-      this.adminservice.addproduct(form.value.title, form.value.content);
-
-    
-    form.resetForm();
+    this.isLoading = true;
+    if (this.mode === "create") {
+      this.postsService.addPost(
+        this.form.value.title,
+        this.form.value.content,
+        this.form.value.image
+      );
+    } else {
+      this.postsService.updatePost(
+        this.postId,
+        this.form.value.title,
+        this.form.value.content,
+        this.form.value.image
+      );
+    }
+    this.form.reset();
   }
 }

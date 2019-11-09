@@ -16,24 +16,24 @@ export class Productservice {
     }
 
     getproduct() {
-        this.http.get<any>('http://localhost:3000/posts')
-            .pipe(map((postData) => {
-                return postData.map(post => {
+        this.http.get<any>('http://localhost:3000/products')
+            .pipe(map((productData) => {
+                return productData.map(prod => {
                     return {
-                        title: post.title,
-                        body: post.body,
-                        id: post._id, 
-                        imagePath: post.imagePath
+                        name: prod.title,
+                        category: prod.body,
+                        price: prod.price, 
+                        image: prod.image
                     };
                 });
             }))
-            .subscribe((transfotmrdpostes) => {
-                this.products = transfotmrdpostes;
+            .subscribe((transfotmproducts) => {
+                this.products = transfotmproducts;
                 this.UpdatedProduct.next([...this.products]);
             });
     }
 
-    postUpdatelistener() {
+    productUpdatelistener() {
         return this.UpdatedProduct.asObservable();
     }
 

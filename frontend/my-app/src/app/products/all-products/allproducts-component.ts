@@ -22,11 +22,12 @@ export class Allproductscomponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.loading = true;
-    this.productservice.getproduct;
-    this.postsub = this.productservice.postUpdatelistener()
+    this.productservice.getproduct();
+    this.postsub = this.productservice.productUpdatelistener()
       .subscribe((Product: Product[]) => {
         this.loading = false;
         this.products = Product;
+        console.log(this.products);
       });
       this.userIsAuthenticated = this.authService.getIsAuth();
       this.authStatusSub = this.authService

@@ -13,7 +13,7 @@ import {typecheck} from './imagetype-check';
 })
 export class ProductCreateComponent {
   private mode = 'create';
-  private postid: string = null;
+  private productid: string = null;
   product: Product;
   loading = false;
   form: FormGroup;
@@ -35,19 +35,22 @@ export class ProductCreateComponent {
 
     });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      // if (paramMap.has('postid')) {
-      //   this.mode = 'edit';
-      //   this.postid = paramMap.get('postid');
-      //   this.loading = true;
-      //   this.postservice.gesingle(this.postid).subscribe(post => {
-      //     this.loading = false;
-      //     this.product = { id: post._id, title: post.title, body: post.body,imagePath: post.imagePath };
-      //     this.form.setValue({ title: this.product.title, body: this.product.body, image:this.product.imagePath });
+      if (paramMap.has('productid')) {
+        this.mode = 'edit';
+        this.productid = paramMap.get('productid');
+        this.loading = true;
+        console.log(this.productid);
+        this.productservice.gesingle(this.productid).subscribe(product => {
+          this.loading = false;
+          this.product = { id: product.id, name: product.name,price:product.price, category: product.category,image: product.image };
+          this.form.setValue({ name: this.product.name, category: this.product.category,
+            price: this.product.price, image:this.product.image });
 
-      //   });
-      // } else {
+        });
+      } else {
         this.mode = 'create';
-        this.postid = null;
+        this.productid = null;
+      }
      
     });
   }
@@ -70,9 +73,12 @@ export class ProductCreateComponent {
         this.form.value.image, 
          );
     }
-    //  else {
-    //   this.postservice.updatepost(this.postid, this.form.value.title, this.form.value.body,this.form.value.image);
-    // }
+     else {
+      this.productservice.updateproduct(this.productid,this.form.value.name,
+        this.form.value.category,
+        this.form.value.price,
+        this.form.value.image);
+    }
     this.form.reset();
   };
   onfilepick(e: Event) {

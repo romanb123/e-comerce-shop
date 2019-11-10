@@ -23,7 +23,8 @@ export class Productservice {
                         name: prod.name,
                         category: prod.category,
                         price: prod.price, 
-                        image: prod.image
+                        image: prod.image,
+                        id:prod._id
                     };
                 });
             }))
@@ -38,7 +39,7 @@ export class Productservice {
     }
 
     gesingle(id: string) {
-        return this.http.get<{ _id: string, body: string, title: string,imagePath: string }>('http://localhost:3000/singlepost/' + id);
+        return this.http.get<{ id: string, name: string,price: string, category: string,image: string }>('http://localhost:3000/singleproduct/' + id);
     }
  
   // const name = req.body.name;
@@ -68,7 +69,8 @@ export class Productservice {
   // const category = req.body.category;
   // const price = req.body.price;
   // const imagePath=url+"/images/"+req.file.filename;
-    updateproduct(id: string, name:string, price: string,category:string ,image: File | string ) {
+    updateproduct(id:string, name:string, price: string,category:string ,image: File | string ) {
+        console.log("id"+id+"name"+name)
        let productData: Product | FormData;
     if (typeof image === "object") {
         productData = new FormData();
@@ -86,7 +88,7 @@ export class Productservice {
             image: image
       };
     }
-        this.http.put('http://localhost:3000/posts/' + id, productData).subscribe(response => {
+        this.http.put('http://localhost:3000/updateproduct/' + id, productData).subscribe(response => {
             const updatedproducts = [...this.products];
             const oldroductid = updatedproducts.findIndex(p => {
                 p.id === id;

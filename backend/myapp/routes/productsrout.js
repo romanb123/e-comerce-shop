@@ -61,7 +61,7 @@ router.get('/products', function(req, res, next) {
     console.log(err);
   });
 });
-router.post('/singleproduct/:productId', function(req, res, next) {
+router.get('/singleproduct/:productId', function(req, res, next) {
   const prodId = req.params.productId;
   Product.findById(prodId)
     .then(product => {
@@ -71,26 +71,23 @@ router.post('/singleproduct/:productId', function(req, res, next) {
     .catch(err => console.log(err));
 });
 
-router.post('/editproduct', function(req, res, next) {
-  const prodId = req.body.productId;
-  const updatedTitle = req.body.title;
-  const updatedPrice = req.body.price;
-  const updatedImageUrl = req.body.imageUrl;
-  const updatedDesc = req.body.description;
-
-  Product.findById(prodId)
-    .then(product => {
-      product.title = updatedTitle;
-      product.price = updatedPrice;
-      product.description = updatedDesc;
-      product.imageUrl = updatedImageUrl;
-      return product.save();
-    })
-    .then(result => {
+router.put('/updateproduct/:id',multer({storage:storage}).single("image"), function (req, res, next) {
+  let image = req.body.image;
+  if (req.file) {
+    const url = req.protocol + "://" + req.get("host");
+    imagePath = url + "/images/" + req.file.filename
+  }
+  const product = new Product({
+      _id: req.params.id,
+      name: req.body.name,
+      price: req.body.price,
+      category: req.body.category,
+      image: image
+  });
+  Product.updateOne({ _id: req.params.id }, product).then(result => {
       console.log(result);
-      res.json('edited');
-    })
-    .catch(err => console.log(err));
+      res.json("updated");
+  })
 });
 
 router.post('/deleteproduct', function(req, res, next) {

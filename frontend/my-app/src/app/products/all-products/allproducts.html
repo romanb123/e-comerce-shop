@@ -1,4 +1,50 @@
-<mat-spinner *ngIf="loading"></mat-spinner>
+<div class="container" style="margin-top:30px">
+  <div class="row">
+    <div class="col-sm-4">
+      <h2>About Me</h2>
+      <h5>Photo of me:</h5>
+      <div class="fakeimg">Fake Image</div>
+      <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+      <h3>Some Links</h3>
+      <p>Lorem ipsum dolor sit ame.</p>
+      <hr class="d-sm-none">
+    </div>
+    <div class="col-sm-8">
+      <div class="row" *ngIf="products.length > 0 && !loading">
+        <div class="card col-sm-4" style="width:400px" *ngFor="let product of products">
+          <div class="card-body">
+            <h4 class="card-title">name: {{product.name}}</h4>
+            <p class="card-text">category: {{product.category}}</p>
+            <p class="card-text">price: {{product.price}}</p>
+            <img class="card-img-top" [src]="product.image" [alt]="product.name" style="width:100%">
+            <mat-action-row *ngIf="userIsAuthenticated">
+              <button mat-button color="warn" (click)="onDelete(product._id)">delete</button>
+              <a mat-button color="primary" [routerLink]="['/edit',product._id]">edit</a>
+            </mat-action-row>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <mat-spinner *ngIf="loading"></mat-spinner>
 <mat-accordion *ngIf="products.length > 0 && !loading">
   <mat-expansion-panel *ngFor="let product of products">
     <mat-expansion-panel-header>
@@ -14,4 +60,5 @@
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
-<p class="info-text mat-body-1" *ngIf="products.length <= 0 && !loading">No products</p>
+<p class="info-text mat-body-1" *ngIf="products.length <= 0 && !loading">No products</p> -->
+<!-- ================================================================================================================== -->

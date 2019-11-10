@@ -67,8 +67,7 @@ export class ProductCreateComponent {
         this.form.value.name,
         this.form.value.category,
         this.form.value.price,
-        this.form.value.image,
-        
+        this.form.value.image, 
          );
     }
     //  else {

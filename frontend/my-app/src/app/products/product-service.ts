@@ -20,8 +20,8 @@ export class Productservice {
             .pipe(map((productData) => {
                 return productData.map(prod => {
                     return {
-                        name: prod.title,
-                        category: prod.body,
+                        name: prod.name,
+                        category: prod.category,
                         price: prod.price, 
                         image: prod.image
                     };

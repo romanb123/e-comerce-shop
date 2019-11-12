@@ -21,11 +21,11 @@ const userSchema = new Schema({
     required: true
   },
   cart: {
-    datecreated: { type: Date, required: false },
     items: [
       {
         productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
         quantity: { type: Number, required: true },
+        datecreated: { type: Date, required: true }
          
       }
     ]
@@ -52,7 +52,6 @@ userSchema.methods.addToCart = function (product) {
   }
   const updatedCart = {
     items: updatedCartItems,
-    datecreated:d
   };
   this.cart = updatedCart;
   return this.save();

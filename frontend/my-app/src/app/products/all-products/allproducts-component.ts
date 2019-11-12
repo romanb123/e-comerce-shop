@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Product } from '../productmodel';
+import { CartItem } from '../cartitemmodel';
 import { Productservice } from '../product-service';
 import { AuthService } from "../../auth/auth.servise";
 
@@ -10,7 +11,9 @@ import { Subscription } from 'rxjs';
 })
 export class Allproductscomponent implements OnInit, OnDestroy {
   products: Product[] = [];
+  cartitems: CartItem[] = [];
   private productsub: Subscription;
+  private cartitemsub: Subscription;
   loading = false;
   userIsAuthenticated = false;
   private postsSub: Subscription;
@@ -22,6 +25,14 @@ export class Allproductscomponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.loading = true;
+     // ===========get cart data=========================
+     this.productservice.getcartitems();
+     this.cartitemsub = this.productservice.cartitemsUpdatelistener()
+       .subscribe((Cartitem: CartItem[]) => {
+         this.loading = false;
+         this.cartitems = Cartitem;
+         console.log(this.cartitems);
+       });
     // ===========get products data=========================
     this.productservice.getproduct();
     this.productsub = this.productservice.productUpdatelistener()

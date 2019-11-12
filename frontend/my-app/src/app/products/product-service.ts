@@ -1,4 +1,5 @@
 import { Product } from './productmodel';
+import { CartItem } from './cartitemmodel';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -12,11 +13,32 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class Productservice {
     private products: Product[] = [];
     private UpdatedProduct = new Subject<Product[]>();
-    private cart: Product[] = [];
-    private UpdatedCart = new Subject<Product[]>();
+    private cartitems: CartItem[] = [];
+    private UpdatedCartItem = new Subject<CartItem[]>();
     constructor(private http: HttpClient, private router: Router) {
     }
 
+ // ===========cart data and actions======================================================   
+ getcartitems() {
+    this.http.get<any>('http://localhost:3000/viewcart')
+        .pipe(map((cartData) => {
+            return cartData.map(item => {
+                return {
+                 item:item
+                };
+            });
+        }))
+        .subscribe((transfotmpcartitems) => {
+            this.cartitems = transfotmpcartitems;
+            this.UpdatedCartItem.next([...this.cartitems]);
+        });
+}
+
+cartitemsUpdatelistener() {
+    return this.UpdatedCartItem.asObservable();
+}
+
+// ===========products data and actions======================================================
     getproduct() {
         this.http.get<any>('http://localhost:3000/products')
             .pipe(map((productData) => {

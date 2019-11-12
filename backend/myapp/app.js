@@ -28,7 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use("/images", express.static(path.join(__dirname, 'images')));
 app.use((req, res, next) => {
-  var usrtid=req.body.userid;
+  var usrtid='5dcaebad145d6520b8ce970e';
   User.findById(usrtid)
     .then(user => {
       req.user = user;

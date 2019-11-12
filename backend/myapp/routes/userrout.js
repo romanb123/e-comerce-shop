@@ -7,13 +7,20 @@ var User=require('../models/usermodel');
 /* GET users listing. */
 router.post('/register', function(req, res, next) {
   const name = req.body.name;
-  const email = req.body.email;
   const password = req.body.password;
+  const email = req.body.email;
+  const street=req.body.street;
+  const role=req.body.role;
+ 
+
+  
   bcrypt.hash(req.body.password, 10).then(hash => {
     const user = new User({
       name: name,
-      email: email,
       password:hash,
+      email: email,
+      street:street,
+      role:role,
       cart: {
           items:[]
       }

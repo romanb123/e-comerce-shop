@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+var d = new Date();
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -12,10 +12,6 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  id: {
-    type: String,
-    required: true
-  },
   street: {
     type: String,
     required: true
@@ -25,14 +21,16 @@ const userSchema = new Schema({
     required: true
   },
   cart: {
+    datecreated: { type: Date, required: false },
     items: [
       {
         productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
         quantity: { type: Number, required: true },
+         
       }
     ]
   },
-  datecreated: { type: Date, required: true }
+ 
 });
 
 userSchema.methods.addToCart = function (product) {
@@ -48,11 +46,13 @@ userSchema.methods.addToCart = function (product) {
   } else {
     updatedCartItems.push({
       productId: product._id,
-      quantity: newQuantity
+      quantity: newQuantity,
+      datecreated:d
     });
   }
   const updatedCart = {
-    items: updatedCartItems
+    items: updatedCartItems,
+    datecreated:d
   };
   this.cart = updatedCart;
   return this.save();

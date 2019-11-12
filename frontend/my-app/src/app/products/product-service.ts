@@ -12,6 +12,8 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class Productservice {
     private products: Product[] = [];
     private UpdatedProduct = new Subject<Product[]>();
+    private cart: Product[] = [];
+    private UpdatedCart = new Subject<Product[]>();
     constructor(private http: HttpClient, private router: Router) {
     }
 

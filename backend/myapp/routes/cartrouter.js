@@ -29,7 +29,13 @@ router.post('/deletefromcart', function(req, res, next) {
     .catch(err => console.log(err));
 });
 
-
+router.post('/clearcart', function(req, res, next) {
+  return req.user.clearCart()
+    .then(result => {
+      res.json("cleared"+result);
+    })
+    .catch(err => console.log(err));
+});
 
 
 

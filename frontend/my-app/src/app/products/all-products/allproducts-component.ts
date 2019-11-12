@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 })
 export class Allproductscomponent implements OnInit, OnDestroy {
   products: Product[] = [];
-  private postsub: Subscription;
+  private productsub: Subscription;
   loading = false;
   userIsAuthenticated = false;
   private postsSub: Subscription;
@@ -22,24 +22,27 @@ export class Allproductscomponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.loading = true;
+    // ===========get products data=========================
     this.productservice.getproduct();
-    this.postsub = this.productservice.productUpdatelistener()
+    this.productsub = this.productservice.productUpdatelistener()
       .subscribe((Product: Product[]) => {
         this.loading = false;
         this.products = Product;
         console.log(this.products);
       });
+        // ===========get authenticated  data=========================
       this.userIsAuthenticated = this.authService.getIsAuth();
       this.authStatusSub = this.authService
         .getAuthStatusListener()
         .subscribe(isAuthenticated => {
           this.userIsAuthenticated = isAuthenticated;
         });
+         // ===========get cart  data=========================
   }
 //   onDelete(postid:string){
 // this.productservice.deletepost(postid);
 //   }
   ngOnDestroy() {
-    this.postsub.unsubscribe();
+    this.productsub.unsubscribe();
   }
 }

@@ -75,8 +75,8 @@ export class ProductCreateComponent {
     }
      else {
       this.productservice.updateproduct(this.productid,this.form.value.name,
-        this.form.value.category,
         this.form.value.price,
+        this.form.value.category,
         this.form.value.image);
     }
     this.form.reset();

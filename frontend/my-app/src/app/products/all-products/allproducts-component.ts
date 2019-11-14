@@ -50,9 +50,9 @@ export class Allproductscomponent implements OnInit, OnDestroy {
         });
          // ===========get cart  data=========================
   }
-//   onDelete(postid:string){
-// this.productservice.deletepost(postid);
-//   }
+  onAddToCart(id:string){
+this.productservice.addtocart(id);
+  }
   ngOnDestroy() {
     this.productsub.unsubscribe();
   }

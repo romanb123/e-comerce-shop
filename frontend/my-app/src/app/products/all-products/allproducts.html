@@ -28,7 +28,7 @@
             <p class="card-text">price: {{product.price}}</p>
             <img class="card-img-top" [src]="product.image" [alt]="product.name" style="width:100%">
             <mat-action-row *ngIf="userIsAuthenticated">
-              <button mat-button color="warn" (click)="onDelete(product.id)">delete</button>
+              <button mat-button color="warn" (click)="onAddToCart(product.id)">addtocart</button>
               <a mat-button color="primary" [routerLink]="['/edit',product.id]">edit</a>
             </mat-action-row>
           </div>

@@ -53,6 +53,9 @@ export class Allproductscomponent implements OnInit, OnDestroy {
   onAddToCart(id:string){
 this.productservice.addtocart(id);
   }
+  onDeleteFromCart(id:string){
+    this.productservice.deletefromcart(id);
+      }
   ngOnDestroy() {
     this.productsub.unsubscribe();
   }

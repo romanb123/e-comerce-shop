@@ -97,6 +97,11 @@ cartitemsUpdatelistener() {
            this.getcartitems();
         })
     }
+    deletefromcart(id: string) {
+        this.http.post<any>('http://localhost:3000/deletefromcart/',{productId:id}).subscribe((response) => {
+           this.getcartitems();
+        })
+    }
    // const name = req.body.name;
   // const category = req.body.category;
   // const price = req.body.price;

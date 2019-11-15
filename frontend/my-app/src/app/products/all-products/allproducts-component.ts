@@ -56,6 +56,9 @@ this.productservice.addtocart(id);
   onDeleteFromCart(id:string){
     this.productservice.deletefromcart(id);
       }
+      onClearCart(id:string){
+        this.productservice.clearcart();
+          }
   ngOnDestroy() {
     this.productsub.unsubscribe();
   }

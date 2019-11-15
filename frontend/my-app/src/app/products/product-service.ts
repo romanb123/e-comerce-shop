@@ -102,6 +102,11 @@ cartitemsUpdatelistener() {
            this.getcartitems();
         })
     }
+    clearcart() {
+        this.http.post<any>('http://localhost:3000/clearcart/',{}).subscribe((response) => {
+           this.getcartitems();
+        })
+    }
    // const name = req.body.name;
   // const category = req.body.category;
   // const price = req.body.price;

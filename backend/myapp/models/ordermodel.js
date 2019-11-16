@@ -19,14 +19,14 @@ const orderSchema = new Schema({
       required: true,
       ref: 'User'
     },
-    addres:{
-      city:{ type: String, required: true },
-      street:{ type: String, required: true },
-      date:{ type: String, required: true }
 
-    },
-    creditcart:{ type: String, required: true }
-  }
+  },
+  addres: {
+    city: { type: String, required: true },
+    street: { type: String, required: true },
+    date: { type: String, required: true }
+  },
+  creditcart: { type: String, required: true }
 });
 
 module.exports = mongoose.model('Order', orderSchema);

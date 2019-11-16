@@ -19,14 +19,15 @@ router.post('/makeorder', function(req, res, next) {
         user: {
           name: req.user.name,
           userId: req.user,
-          addres:{
+       
+     
+        },
+           addres:{
           city:req.body.city,
           street:req.body.street,
           date:req.body.date,
         },
-          creditcart:req.body.creditcart
-     
-        },
+          creditcart:req.body.creditcart,
         products: products,
        
       

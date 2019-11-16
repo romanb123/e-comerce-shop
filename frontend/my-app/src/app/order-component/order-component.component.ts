@@ -2,6 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { CartItem } from '../products/cartitemmodel';
 import { FormGroup, FormControl, Validators, FormControlName } from '@angular/forms';
 import { Productservice } from '../products/product-service';
+import { OrderService } from './order-service.service';
 import { AuthService } from "../auth/auth.servise";
 import { Subscription } from 'rxjs';
 @Component({
@@ -19,8 +20,9 @@ export class OrderComponentComponent implements OnInit {
   private postsSub: Subscription;
   private authStatusSub: Subscription;
   productservice: Productservice;
-  constructor(productservice: Productservice,private authService: AuthService) {
+  constructor(productservice: Productservice,private authService: AuthService,private orderservice:OrderService) {
     this.productservice = productservice;
+    this.orderservice = orderservice;
   }
 
   ngOnInit() {
@@ -45,6 +47,7 @@ export class OrderComponentComponent implements OnInit {
           city: new FormControl(null, { validators: [Validators.required] }), 
           street: new FormControl(null, { validators: [Validators.required] }),
           date: new FormControl(null, { validators: [Validators.required] }),
+          creditcart: new FormControl(null, { validators: [Validators.required] }),
             // const name = req.body.name;
       // const category = req.body.category;
       // const price = req.body.price;
@@ -52,5 +55,18 @@ export class OrderComponentComponent implements OnInit {
     
         });
   }
+  onMakeOrder() {
+    if (this.form.invalid) {
+      return;
+    }
+      this.orderservice.makeorder(
+        this.form.value.city,
+        this.form.value.street,
+        this.form.value.date,
+        this.form.value.creditcart,
+         );
+    
+    this.form.reset();
+  };
 
 }

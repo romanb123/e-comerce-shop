@@ -6,7 +6,8 @@ var Order=require('../models/ordermodel');
 
 
 
-router.post('/addtoorder', function(req, res, next) {
+router.post('/makeorder', function(req, res, next) {
+  console.log(req.body);
     req.user
     .populate('cart.items.productId')
     .execPopulate()
@@ -17,9 +18,18 @@ router.post('/addtoorder', function(req, res, next) {
       const order = new Order({
         user: {
           name: req.user.name,
-          userId: req.user
+          userId: req.user,
+          addres:{
+          city:req.body.city,
+          street:req.body.street,
+          date:req.body.date,
         },
-        products: products
+          creditcart:req.body.creditcart
+     
+        },
+        products: products,
+       
+      
       });
       return order.save();
     })
@@ -27,7 +37,7 @@ router.post('/addtoorder', function(req, res, next) {
       return req.user.clearCart();
     })
     .then(() => {
-      res.json('order created');
+      res.json("orderd");
     })
     .catch(err => console.log(err));
   });

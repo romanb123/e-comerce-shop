@@ -18,7 +18,14 @@ const orderSchema = new Schema({
       type: Schema.Types.ObjectId,
       required: true,
       ref: 'User'
-    }
+    },
+    addres:{
+      city:{ type: String, required: true },
+      street:{ type: String, required: true },
+      date:{ type: String, required: true }
+
+    },
+    creditcart:{ type: String, required: true }
   }
 });
 

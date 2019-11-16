@@ -44,16 +44,19 @@
             <mat-form-field class="example-full-width">
               <input matInput type="date" formControlName="date" placeholder="date">
               <mat-error *ngIf="form.get('date').invalid">please enter a date</mat-error>
-            </mat-form-field>
-            <!-- ================================================================================================================ -->
-            <!-- image -->
-            <!-- ================================================================================================================ -->
             <br>
+          </mat-form-field>
+            <!-- ================================================================================================================ -->
+            <!-- credditcart -->
+            <!-- ================================================================================================================ -->
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" formControlName="creditcart" placeholder="creditcart">
+              <mat-error *ngIf="form.get('creditcart').invalid">please enter a creditcart</mat-error>
+            <br>
+          </mat-form-field>
             <button type="submit">order</button>
           </form>
         <!-- =============================================================================================================== -->
-
-
     </mat-card>
       
       </div>

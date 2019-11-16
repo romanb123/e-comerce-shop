@@ -13,10 +13,11 @@ import {Allproductscomponent} from './products/all-products/allproducts-componen
 import {Logincomponent} from './auth/login/login.component';
 import {RegisterComponent} from './auth/register/register.component';
 import { Addtoken } from "./auth/auth.addtoken";
+import { OrderComponentComponent } from './order-component/order-component.component';
 
 @NgModule({
   declarations: [
-    AppComponent,ProductCreateComponent,NavbarComponent,Allproductscomponent,Logincomponent,RegisterComponent
+    AppComponent,ProductCreateComponent,NavbarComponent,Allproductscomponent,Logincomponent,RegisterComponent, OrderComponentComponent
   ],
   imports: [
     BrowserModule,

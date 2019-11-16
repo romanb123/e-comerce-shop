@@ -1,0 +1,62 @@
+<div class="container" style="margin-top:30px">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="row" *ngIf="cartitems.length > 0 && !loading">
+          <div class="card col-sm-12" style="width:400px" *ngFor="let cartitem  of cartitems">
+            <div class="card-body">
+              <p class="card-text">name: {{cartitem.item.productId.name}}</p>
+              <p class="card-text">price: {{cartitem.item.productId.price}}</p>
+              <p class="card-text">quantiti: {{cartitem.item.quantity}}</p>
+              <p class="card-text">total-price: {{cartitem.item.quantity*cartitem.item.productId.price}}</p>
+              <!-- <img class="card-img-top" [src]="product.image" [alt]="product.name" style="width:100%"> -->
+              <mat-action-row *ngIf="userIsAuthenticated">
+                <!-- <button mat-button color="warn" (click)="onDelete(product.id)">delete</button>
+                <a mat-button color="primary" [routerLink]="['/edit',product.id]">edit</a> -->
+              </mat-action-row>
+            </div>
+          </div>
+          <p>cart created at {{cartitems[0].item.datecreated}}</p>
+          <button mat-button color="warn" (click)="onClearCart()">clearcart</button>
+        </div>
+        <hr class="d-sm-none">
+      </div>
+      <div class="col-sm-8">
+        <mat-card class="example-card">
+        <!-- ======================================================================================================= -->
+        <form [formGroup]="form" (submit)="onMakeOrder()" *ngIf="!loading">
+            <!-- ================================================================================================================ -->
+            <!-- city -->
+            <!-- ================================================================================================================ -->
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" formControlName="city" placeholder="city">
+              <mat-error *ngIf="form.get('city').invalid">city</mat-error>
+            </mat-form-field>
+            <!-- ================================================================================================================ -->
+            <!-- street -->
+            <!-- ================================================================================================================ -->
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" formControlName="street" placeholder="street">
+              <mat-error *ngIf="form.get('street').invalid">street</mat-error>
+            </mat-form-field>
+            <!-- ================================================================================================================ -->
+            <!-- date -->
+            <!-- ================================================================================================================ -->
+            <mat-form-field class="example-full-width">
+              <input matInput type="date" formControlName="date" placeholder="date">
+              <mat-error *ngIf="form.get('date').invalid">please enter a date</mat-error>
+            </mat-form-field>
+            <!-- ================================================================================================================ -->
+            <!-- image -->
+            <!-- ================================================================================================================ -->
+            <br>
+            <button type="submit">order</button>
+          </form>
+        <!-- =============================================================================================================== -->
+
+
+    </mat-card>
+      
+      </div>
+    </div>
+  </div>
+  

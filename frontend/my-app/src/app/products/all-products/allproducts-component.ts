@@ -59,6 +59,17 @@ export class Allproductscomponent implements OnInit, OnDestroy {
     const search= this.form.value.search;
     this.productservice.searchproduct(search);
   }
+
+  backtoallproducts(){
+    this.productservice.getproduct();
+    this.productsub = this.productservice.productUpdatelistener()
+      .subscribe((Product: Product[]) => {
+        this.loading = false;
+        this.products = Product;
+        console.log(this.products);
+      });
+  }
+  
   onCategoryProduct(){
     const category= this.form.value.category;
     console.log(category);

@@ -65,6 +65,21 @@ cartitemsUpdatelistener() {
     gesingle(id: string) {
         return this.http.get<{ id: string, name: string,price: string, category: string,image: string }>('http://localhost:3000/singleproduct/' + id);
     }
+    searchproduct(productname: string) {
+        return this.http.get<any>
+        ('http://localhost:3000/searchproduct/'+productname).subscribe((transfotmproducts) => {
+            this.products = transfotmproducts;
+            this.UpdatedProduct.next([...this.products]);
+        });;
+    }
+
+    categoryproduct(productcategory: string) {
+        return this.http.get<any>
+        ('http://localhost:3000/categoryproduct/'+productcategory).subscribe((transfotmproducts) => {
+            this.products = transfotmproducts;
+            this.UpdatedProduct.next([...this.products]);
+        });;
+    }
  
   // const name = req.body.name;
   // const category = req.body.category;

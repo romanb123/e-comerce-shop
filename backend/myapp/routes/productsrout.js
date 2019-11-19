@@ -70,6 +70,25 @@ router.get('/singleproduct/:productId', function(req, res, next) {
     })
     .catch(err => console.log(err));
 });
+router.get('/searchproduct/:productname', function(req, res, next) {
+  const productname = req.params.productname;
+  Product.find({"name":productname})
+    .then(product => {
+      console.log(product);
+      res.send(product);
+    })
+    .catch(err => console.log(err));
+});
+
+router.get('/categoryproduct/:productcategory', function(req, res, next) {
+  const productcategory = req.params.productcategory;
+  Product.find({"category":productcategory})
+    .then(product => {
+      console.log(product);
+      res.send(product);
+    })
+    .catch(err => console.log(err));
+});
 
 router.put('/updateproduct/:id',multer({storage:storage}).single("image"), function (req, res, next) {
   let image = req.body.image;

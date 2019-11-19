@@ -21,6 +21,31 @@
       <hr class="d-sm-none">
     </div>
     <div class="col-sm-8">
+        <mat-card class="example-card">
+            <form [formGroup]="form" (submit)="onSearchProduct()" *ngIf="!loading">
+            <!-- ================================================================================================================ -->
+            <!-- search -->
+            <!-- ================================================================================================================ -->
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" formControlName="search" placeholder="search">
+              <mat-error >search</mat-error>
+            </mat-form-field>
+            <button type="submit">search</button>
+          </form>
+          <form [formGroup]="form" (submit)="onCategoryProduct()" *ngIf="!loading">
+            <div class="form-group">
+              <label for="sel1">select category:</label>
+              <select class="form-control" id="sel1" formControlName="category">
+                <option>furniture</option>
+                <option>food</option>
+                <option>ccccc</option>
+                <option>ddddddddddddd</option>
+              </select>
+              <br>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </mat-card>
       <div class="row" *ngIf="products.length > 0 && !loading">
         <div class="card col-sm-4" style="width:400px" *ngFor="let product of products">
           <div class="card-body">

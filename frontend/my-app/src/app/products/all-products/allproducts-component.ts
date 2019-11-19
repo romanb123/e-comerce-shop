@@ -3,7 +3,7 @@ import { Product } from '../productmodel';
 import { CartItem } from '../cartitemmodel';
 import { Productservice } from '../product-service';
 import { AuthService } from "../../auth/auth.servise";
-
+import { FormGroup, FormControl, Validators, FormControlName } from '@angular/forms';
 import { Subscription } from 'rxjs';
 @Component({
   selector: 'allproducts',
@@ -15,6 +15,7 @@ export class Allproductscomponent implements OnInit, OnDestroy {
   private productsub: Subscription;
   private cartitemsub: Subscription;
   loading = false;
+  form: FormGroup;
   userIsAuthenticated = false;
   private postsSub: Subscription;
   private authStatusSub: Subscription;
@@ -49,7 +50,22 @@ export class Allproductscomponent implements OnInit, OnDestroy {
           this.userIsAuthenticated = isAuthenticated;
         });
          // ===========get cart  data=========================
+         this.form = new FormGroup({
+          search: new FormControl(null, { validators: [Validators.required] }),
+          category: new FormControl(null, { validators: [Validators.required] }), 
+        });
   }
+  onSearchProduct(){
+    const search= this.form.value.search;
+    this.productservice.searchproduct(search);
+  }
+  onCategoryProduct(){
+    const category= this.form.value.category;
+    console.log(category);
+    this.productservice.categoryproduct(category);
+  }
+
+
   onAddToCart(id:string){
 this.productservice.addtocart(id);
   }

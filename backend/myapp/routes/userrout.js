@@ -6,8 +6,28 @@ var User=require('../models/usermodel');
 
 /* GET users listing. */
 router.post('/register_step1', function(req, res, next) {
-  console.log(req.body);
-  res.json("ffgf");
+  const passport = req.body.passport;
+  const email = req.body.passport;
+  const password = req.body.password;
+  const password_confirm = req.body.password_confirm;
+
+  User.findOne({ passport: passport })
+    .then(userDoc => {
+      if (userDoc) {
+        return res.json('user already taken');
+      }
+      else   if (password!=password_confirm) {
+        return res.json('passwords are different');
+      }
+      else   if (!passport||!email||!password||!password_confirm) {
+        return res.json('one of values are missing');
+      }
+      else {
+        return res.json('completed!!!');
+      }
+    }) .catch(err => {
+      console.log(err);
+    });
 });
 
 

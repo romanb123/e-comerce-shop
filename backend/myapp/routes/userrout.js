@@ -5,6 +5,13 @@ const jwt=require("jsonwebtoken");
 var User=require('../models/usermodel');
 
 /* GET users listing. */
+router.post('/register_step1', function(req, res, next) {
+  console.log(req.body);
+  res.json("ffgf");
+});
+
+
+
 router.post('/register', function(req, res, next) {
   const name = req.body.name;
   const password = req.body.password;

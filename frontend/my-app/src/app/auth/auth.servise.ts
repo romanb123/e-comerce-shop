@@ -23,7 +23,13 @@ export class AuthService {
   getIsAuth() {
     return this.isAuthenticated;
   }
-
+  register_step1(passport: string, email: string,password:string,password_confirm:string) {
+    const authData: any = {passport: passport, email: email,password:password,password_confirm:password_confirm};
+    this.http.post("http://localhost:3000/register_step1", authData)
+      .subscribe(response => {
+        console.log(response);
+      });
+  }
   createUser(email: string, password: string) {
     const authData: Authdata = {email: email, password: password};
     this.http.post("http://localhost:3000/register", authData)

@@ -40,7 +40,8 @@
       </mat-form-field>
       <br>
       <div>
-        <button mat-button matStepperNext (click)="onStep1()">Next</button>
+        <button mat-button matStepperNext *ngIf="isCompleted">Next</button>
+        <button mat-button (click)="onStep1()" *ngIf="!isCompleted">checkdata</button>
       </div>
     </form>
   </mat-step>

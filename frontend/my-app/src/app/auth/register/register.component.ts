@@ -1,6 +1,7 @@
 import { Component,OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { AuthService } from "../auth.servise";
+import { Subscription } from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -9,6 +10,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class RegisterComponent implements OnInit {
   isLinear = true;
   isCompleted=false;
+  private complitedstatusSub: Subscription;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   loading = false;
@@ -34,6 +36,13 @@ onStep1(){
       this.firstFormGroup.value.password,
       this.firstFormGroup.value.password_confirm,
        );
+       this.isCompleted = this.authService.complitescheck();
+       this.complitedstatusSub = this.authService
+         .getcomplitedStatusListener()
+         .subscribe(iscompleted => {
+           this.isCompleted = iscompleted;
+           console.log(this.isCompleted);
+         });
   
 }
   onSignup(form: NgForm) {

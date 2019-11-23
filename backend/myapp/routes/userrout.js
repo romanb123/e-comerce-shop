@@ -14,16 +14,16 @@ router.post('/register_step1', function(req, res, next) {
   User.findOne({ passport: passport })
     .then(userDoc => {
       if (userDoc) {
-        return res.json('user already taken');
+        return res.json({message:'user already taken',value:false});
       }
       else   if (password!=password_confirm) {
-        return res.json('passwords are different');
+        return res.json({message:'passwords are different',value:false});
       }
       else   if (!passport||!email||!password||!password_confirm) {
-        return res.json('one of values are missing');
+        return res.json({message:'one of values are missing',value:false});
       }
       else {
-        return res.json('completed!!!');
+        return res.json({message:'completed!!!',value:true});
       }
     }) .catch(err => {
       console.log(err);

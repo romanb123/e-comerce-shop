@@ -20,8 +20,9 @@
 <!-- ===================================================================================================================== -->
 
 <mat-horizontal-stepper [linear]="isLinear" #stepper>
-  <mat-step  [completed]="isCompleted">
+  <mat-step [completed]="isCompleted">
     <form [formGroup]="firstFormGroup">
+      <p>{{this.message}}</p>
       <ng-template matStepLabel>Fill out your name</ng-template>
       <mat-form-field>
         <input matInput placeholder="passport" formControlName="passport" required>
@@ -45,15 +46,27 @@
       </div>
     </form>
   </mat-step>
-  <mat-step >
+  <mat-step>
     <form [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Fill out your address</ng-template>
       <mat-form-field>
-        <input matInput placeholder="Address" formControlName="secondCtrl" required>
+        <input matInput placeholder="city" formControlName="city" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="street" formControlName="street" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="name" formControlName="name" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="lastname" formControlName="lastname" required>
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperNext (click)=onSignup()>Next</button>
       </div>
     </form>
   </mat-step>

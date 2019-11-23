@@ -1,70 +1,78 @@
 var express = require('express');
 var router = express.Router();
 const bcrypt = require("bcrypt");
-const jwt=require("jsonwebtoken");
-var User=require('../models/usermodel');
-
+const jwt = require("jsonwebtoken");
+var User = require('../models/usermodel');
+var passport;
+var email;
+var password;
+var password_confirm;
 /* GET users listing. */
-router.post('/register_step1', function(req, res, next) {
-  const passport = req.body.passport;
-  const email = req.body.passport;
-  const password = req.body.password;
-  const password_confirm = req.body.password_confirm;
+router.post('/register_step1', function (req, res, next) {
+  passport = req.body.passport;
+  email = req.body.email;
+  password = req.body.password;
+  password_confirm = req.body.password_confirm;
 
   User.findOne({ passport: passport })
     .then(userDoc => {
       if (userDoc) {
-        return res.json({message:'user already taken',value:false});
+        return res.json({ message: 'user already taken', value: false });
       }
-      else   if (password!=password_confirm) {
-        return res.json({message:'passwords are different',value:false});
+      else if (password != password_confirm) {
+        return res.json({ message: 'passwords are different', value: false });
       }
-      else   if (!passport||!email||!password||!password_confirm) {
-        return res.json({message:'one of values are missing',value:false});
+      else if (!passport || !email || !password || !password_confirm) {
+        return res.json({ message: 'one of values are missing', value: false });
       }
       else {
-        return res.json({message:'completed!!!',value:true});
+        return res.json({ message: 'check completed!!! go to next step', value: true });
       }
-    }) .catch(err => {
+    }).catch(err => {
       console.log(err);
     });
 });
 
 
 
-router.post('/register', function(req, res, next) {
+router.post('/register', function (req, res, next) {
+  const city = req.body.city;
+  const street = req.body.street;
   const name = req.body.name;
-  const password = req.body.password;
-  const email = req.body.email;
-  const street=req.body.street;
-  const role=req.body.role;
- 
+  const lastname = req.body.lastname;
+  console.log(req.body);
+  console.log(passport,email,email,password_confirm);
 
-  
-  bcrypt.hash(req.body.password, 10).then(hash => {
+
+  bcrypt.hash(password, 10).then(hash => {
     const user = new User({
-      name: name,
-      password:hash,
+      passport: passport,
       email: email,
-      street:street,
-      role:role,
+      password: hash,
+      city: city,
+      street: street,
+      name: name,
+      lastname: lastname,
+      role:'user',
+
       cart: {
-          items:[]
+        items: []
       }
     });
-      user
-          .save()
-          .then(result => {
-              res.status(201).json({
-                  message: "User created!",
-                  result: result
-              });
-          })
-          .catch(err => {
-              res.status(500).json({
-                  error: err
-              });
-          });
+    console.log(user);
+    user
+      .save()
+      .then(result => {
+        res.status(201).json({
+          message: "User created!",
+          result: result
+        });
+      })
+      .catch(err => {
+        res.status(500).json({
+          error: err
+        });
+      });
   });
 });
 
@@ -97,7 +105,7 @@ router.post("/login", (req, res, next) => {
       });
     })
     .catch(err => {
-        console.log(err);
+      console.log(err);
       return res.status(401).json({
         message: "Auth failed"
       });

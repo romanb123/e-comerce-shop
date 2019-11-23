@@ -12,6 +12,8 @@ export class AuthService {
   private tokenTimer: any;
   private completed= false;
   private completedStatusListener = new Subject<boolean>();
+  private message:string;
+  private messageApdateListener = new Subject<string>();
   private authStatusListener = new Subject<boolean>();
 
 
@@ -30,8 +32,10 @@ export class AuthService {
     this.http.post<{value:boolean,message:string}>("http://localhost:3000/register_step1", authData)
       .subscribe(response => {
         console.log(response.value);
+        this.message=response.message;
         this.completed=response.value;
         this.completedStatusListener.next(response.value);
+        this.messageApdateListener.next(response.message);
       });
   }
   complitescheck() {
@@ -40,8 +44,15 @@ export class AuthService {
 getcomplitedStatusListener() {
   return this.completedStatusListener.asObservable();
 }
-  createUser(email: string, password: string) {
-    const authData: Authdata = {email: email, password: password};
+
+getmessage() {
+  return this.message;
+}
+updatedMessageLissenter() {
+return this.messageApdateListener.asObservable();
+}
+  createUser(city: string, street: string, name: string, lastname: string) {
+    const authData: any = {city: city, street: street, name: name, lastname: lastname};
     this.http.post("http://localhost:3000/register", authData)
       .subscribe(response => {
         console.log(response);

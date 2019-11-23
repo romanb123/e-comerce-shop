@@ -9,6 +9,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class RegisterComponent implements OnInit {
   isLinear = true;
+  message:string;
+  private messageApdateSub: Subscription;
   isCompleted=false;
   private complitedstatusSub: Subscription;
   firstFormGroup: FormGroup;
@@ -23,7 +25,10 @@ export class RegisterComponent implements OnInit {
       password_confirm: ['', Validators.required]
     });
     this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
+      city: ['', Validators.required],
+      street: ['', Validators.required],
+      name: ['', Validators.required],
+      lastname: ['', Validators.required]
     });
   }
 onStep1(){
@@ -43,13 +48,25 @@ onStep1(){
            this.isCompleted = iscompleted;
            console.log(this.isCompleted);
          });
+
+         this.message = this.authService.getmessage();
+       this.messageApdateSub = this.authService
+         .updatedMessageLissenter()
+         .subscribe(message => {
+           this.message = message;
+           console.log(this.message);
+         });
   
 }
-  onSignup(form: NgForm) {
-    if (form.invalid) {
+  onSignup() {
+    if (this.secondFormGroup.invalid) {
       return;
     }
     this.loading = true;
-    this.authService.createUser(form.value.email, form.value.password);
+    this.authService.createUser(   
+      this.secondFormGroup.value.city,
+      this.secondFormGroup.value.street,
+      this.secondFormGroup.value.name,
+      this.secondFormGroup.value.lastname,);
   }
 }

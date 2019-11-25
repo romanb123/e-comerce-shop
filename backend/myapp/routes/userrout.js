@@ -13,33 +13,24 @@ router.post('/register_step1', function (req, res, next) {
   email = req.body.email;
   password = req.body.password;
   password_confirm = req.body.password_confirm;
+
   User.findOne({ passport: passport })
-    .then(userexist => {
-      if (userexist) {
-        return res.json({ message: 'user with this passport already exist', value: false });
-      } else {
-        User.findOne({ email: email })
-          .then(userDoc => {
-            if (userDoc) {
-              return res.json({ message: 'user with this email already exist', value: false });
-            }
-            else if (password != password_confirm) {
-              return res.json({ message: 'passwords are different', value: false });
-            }
-            else if (!passport || !email || !password || !password_confirm) {
-              return res.json({ message: 'one of values are missing', value: false });
-            }
-            else {
-              return res.json({ message: 'check completed!!! go to next step', value: true });
-            }
-          }).catch(err => {
-            console.log(err);
-          });
+    .then(userDoc => {
+      if (userDoc) {
+        return res.json({ message: 'user already taken', value: false });
+      }
+      else if (password != password_confirm) {
+        return res.json({ message: 'passwords are different', value: false });
+      }
+      else if (!passport || !email || !password || !password_confirm) {
+        return res.json({ message: 'one of values are missing', value: false });
+      }
+      else {
+        return res.json({ message: 'check completed!!! go to next step', value: true });
       }
     }).catch(err => {
       console.log(err);
     });
-
 });
 
 
@@ -50,7 +41,7 @@ router.post('/register', function (req, res, next) {
   const name = req.body.name;
   const lastname = req.body.lastname;
   console.log(req.body);
-  console.log(passport, email, email, password_confirm);
+  console.log(passport,email,email,password_confirm);
 
 
   bcrypt.hash(password, 10).then(hash => {
@@ -62,7 +53,7 @@ router.post('/register', function (req, res, next) {
       street: street,
       name: name,
       lastname: lastname,
-      role: 'user',
+      role:'user',
 
       cart: {
         items: []

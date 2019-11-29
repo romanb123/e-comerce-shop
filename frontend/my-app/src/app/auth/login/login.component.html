@@ -1,14 +1,51 @@
-<mat-card>
-    <mat-spinner *ngIf="loading"></mat-spinner>
-    <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!loading">
-      <mat-form-field>
-        <input matInput name="email" ngModel type="email" placeholder="E-Mail" #emailInput="ngModel" required email>
-        <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input type="password" name="password" ngModel matInput placeholder="Password" #passwordInput="ngModel" required>
-        <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
-      </mat-form-field>
-      <button mat-raised-button color="accent" type="submit" *ngIf="!loading">Login</button>
-    </form>
-  </mat-card>
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- login section -->
+
+    <div class="col-sm-4">
+      <mat-card>
+        <mat-spinner *ngIf="loading"></mat-spinner>
+        <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!loading">
+          <mat-form-field>
+            <input matInput name="email" ngModel type="email" placeholder="E-Mail" #emailInput="ngModel" required email>
+            <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <input type="password" name="password" ngModel matInput placeholder="Password" #passwordInput="ngModel"
+              required>
+            <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
+          </mat-form-field>
+          <br>
+          <button mat-raised-button color="accent" type="submit" *ngIf="!loading">Login</button>
+        </form>
+      </mat-card>
+    </div>
+
+     <!-- about section -->
+    
+    <div class="col-sm-4" id="about">
+      <mat-card>
+          <h1>why to by in our store?</h1>
+          <ul class="list-group">
+             <li class="list-group-item">best prices</li>
+             <li class="list-group-item">best quality</li>
+             <li class="list-group-item">best products</li>
+           </ul>
+      </mat-card>
+    </div>
+
+       <!-- user data section -->
+
+    <div class="col-sm-4">
+      <mat-card>
+        <h1>available products:</h1>
+        <p>{{productslenth}} products</p>
+      </mat-card>
+    </div>
+
+
+
+  </div>
+</div>

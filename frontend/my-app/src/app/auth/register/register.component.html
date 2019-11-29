@@ -1,22 +1,4 @@
-<mat-card>
-  <mat-spinner *ngIf="loading"></mat-spinner>
-  <form (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!loading">
-    <mat-form-field>
-      <input matInput name="email" ngModel type="email" placeholder="E-Mail" #emailInput="ngModel" required email>
-      <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-      <input type="password" name="password" ngModel matInput placeholder="Password" #passwordInput="ngModel" required>
-      <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
-    </mat-form-field>
-    <br>
-    <button mat-raised-button color="accent" type="submit" *ngIf="!loading">register</button>
-  </form>
-</mat-card>
 
-
-<br><br>
 <!-- ===================================================================================================================== -->
 
 <mat-horizontal-stepper [linear]="isLinear" #stepper>
@@ -74,8 +56,7 @@
     <ng-template matStepLabel>Done</ng-template>
     You are now done.
     <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
+      <button mat-button routerLink='/login'>go to login</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

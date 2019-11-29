@@ -1,4 +1,5 @@
 var createError = require('http-errors');
+const jwt = require("jsonwebtoken");
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -28,7 +29,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use("/images", express.static(path.join(__dirname, 'images')));
 app.use((req, res, next) => {
-  var usrtid='5dcaebad145d6520b8ce970e';
+  const token =  req.headers.authorization.split(' ')[1];
+decodedToken = jwt.verify(token, "secret_this_should_be_longer");
+  var usrtid=decodedToken.userId;
   User.findById(usrtid)
     .then(user => {
       req.user = user;

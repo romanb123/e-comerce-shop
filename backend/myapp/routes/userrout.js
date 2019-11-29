@@ -104,7 +104,7 @@ router.post("/login", (req, res, next) => {
         });
       }
       const token = jwt.sign(
-        { email: fetchedUser.email, userId: fetchedUser._id },
+        { email: fetchedUser.email, userId: fetchedUser._id,role:fetchedUser.role },
         "secret_this_should_be_longer",
         { expiresIn: "1h" }
       );

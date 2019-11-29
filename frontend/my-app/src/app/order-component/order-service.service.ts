@@ -14,6 +14,10 @@ export class OrderService {
   private UpdatedOrders = new Subject<Order[]>();
   constructor(private http: HttpClient, private router: Router){ }
 
+
+// ========================================================================================================================
+// getallorders
+// ========================================================================================================================
   makeorder(city: string,street: string,date:string,creditcart:string) {
    
     
@@ -26,10 +30,33 @@ export class OrderService {
         this.UpdatedOrders.next([...this.orders]);
         this.router.navigate(['/']);
     })
-
 }
 
 orderUpdatelistener() {
     return this.UpdatedOrders.asObservable();
 }
+// ========================================================================================================================
+// getallorders
+// ========================================================================================================================
+
+getallorders() {
+  this.http.get<any>('http://localhost:3000/showallorders')
+      .pipe(map((ordersdata) => {
+          return ordersdata.map(item => {
+              return {
+               item:item
+              };
+          });
+      }))
+      .subscribe((transfotmporders) => {
+          this.orders = transfotmporders;
+          this.UpdatedOrders.next([...this.orders]);
+      });
+}
+
+cartitemsUpdatelistener() {
+  return this.UpdatedOrders.asObservable();
+}
+
+
 }

@@ -55,4 +55,13 @@ router.post('/makeorder', function(req, res, next) {
     .catch(err => console.log(err));
   });
 
+  router.get('/showallorders', function(req, res, next) {
+    Order.find()
+    .then(orders => {
+      console.log(orders);
+      res.send(orders);
+    })
+    .catch(err => console.log(err));
+  });
+
   module.exports = router;

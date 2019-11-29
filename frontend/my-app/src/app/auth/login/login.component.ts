@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from "../auth.servise";
 import { Productservice } from "../../products/product-service";
+import { OrderService } from "../../order-component/order-service.service";
 import { Subscription } from 'rxjs';
 
 
@@ -12,9 +13,11 @@ import { Subscription } from 'rxjs';
 export class Logincomponent implements OnInit {
   private productsub: Subscription;
   productslenth:any;
+  private orderssub: Subscription;
+  orderslenght:any;
 
   loading = false;
-  constructor(public authService: AuthService, public productservice: Productservice) { }
+  constructor(public authService: AuthService, public productservice: Productservice,public orderservice: OrderService) { }
 
 
   onLogin(form: NgForm) {
@@ -26,12 +29,23 @@ export class Logincomponent implements OnInit {
   }
 
   ngOnInit() {
+  // ========================================================================================================================
+  // getproducrsnumber
+  // ========================================================================================================================
     this.productservice.getproduct();
     this.productsub = this.productservice.productUpdatelistener()
       .subscribe((Product) => {
-        this.loading = false;
         this.productslenth = Product.length;
         console.log(this.productslenth);
       });
+  // ========================================================================================================================
+  // getordersnumber
+  // ======================================================================================================================== 
+  this.orderservice.getallorders();
+  this.orderssub = this.orderservice.orderUpdatelistener()
+    .subscribe((orders) => {
+      this.orderslenght = orders.length;
+      console.log(this.orderslenght);
+    });   
   }
 }

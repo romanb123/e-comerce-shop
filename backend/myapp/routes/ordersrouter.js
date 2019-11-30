@@ -3,10 +3,12 @@ var router = express.Router();
 var Product=require('../models/productsmodel');
 var User=require('../models/usermodel');
 var Order=require('../models/ordermodel');
+var auth=require('../middlwear/auth-check');
+var d = new Date();
 
 
 
-router.post('/makeorder', function(req, res, next) {
+router.post('/makeorder',auth, function(req, res, next) {
   console.log(req.body);
     req.user
     .populate('cart.items.productId')
@@ -16,6 +18,7 @@ router.post('/makeorder', function(req, res, next) {
         return { quantity: i.quantity, product: { ...i.productId._doc } };
       });
       const order = new Order({
+        datecreated:d,
         user: {
           name: req.user.name,
           userId: req.user,
@@ -45,17 +48,15 @@ router.post('/makeorder', function(req, res, next) {
 
 
 
-  router.get('/showorders', function(req, res, next) {
+  router.get('/showorders',auth, function(req, res, next) {
     Order.find({ 'user.userId': req.user._id })
     .then(orders => {
-      res.json({
-        orders: orders
-      });
+      res.send(orders);
     })
     .catch(err => console.log(err));
   });
 
-  router.get('/showallorders', function(req, res, next) {
+  router.get('/showallorders',auth, function(req, res, next) {
     Order.find()
     .then(orders => {
       console.log(orders);

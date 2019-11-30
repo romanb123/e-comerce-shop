@@ -8,6 +8,8 @@ import { Authdata } from "./auth.model";
 @Injectable({ providedIn: "root" })
 export class AuthService {
   private token: string;
+  private user:any;
+  private updateduser = new Subject<any>();
   private isAuthenticated = false;
   private tokenTimer: any;
   private completed= false;
@@ -20,6 +22,12 @@ export class AuthService {
   constructor(private http: HttpClient,private router: Router) {}
   getToken() {
     return this.token;
+  }
+  getuser() {
+    return this.user;
+  }
+  getuserupdated() {
+    return this.updateduser.asObservable();
   }
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
@@ -61,11 +69,14 @@ return this.messageApdateListener.asObservable();
 
   login(email: string, password: string) {
     const authData: Authdata = {email: email, password: password};
-    this.http.post<{token: string,expiresIn: number}>("http://localhost:3000/login", authData)
+    this.http.post<{token: string,expiresIn: number,user:any}>("http://localhost:3000/login", authData)
       .subscribe(response => {
         const token = response.token;
         this.token = token;
         if (token) {
+          const user = response.user;
+          this.user = user;
+          this.updateduser.next(response.user);
           const expiresInDuration = response.expiresIn;
           this.setAuthTimer(expiresInDuration);
           this.isAuthenticated = true;
@@ -74,7 +85,7 @@ return this.messageApdateListener.asObservable();
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
           console.log(expirationDate);
           this.saveAuthData(token, expirationDate);
-          this.router.navigate(['/']);
+          // this.router.navigate(['/']);
 
         }
 

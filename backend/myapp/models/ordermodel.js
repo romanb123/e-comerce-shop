@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
+  datecreated: { type: Date, required: true },
   products: [
     {
       product: { type: Object, required: true },

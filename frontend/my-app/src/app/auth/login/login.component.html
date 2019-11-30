@@ -23,28 +23,41 @@
       </mat-card>
     </div>
 
-     <!-- about section -->
-    
+    <!-- about section -->
+
     <div class="col-sm-4" id="about">
       <mat-card>
-          <h1>why to by in our store?</h1>
-          <ul class="list-group">
-             <li class="list-group-item">best prices</li>
-             <li class="list-group-item">best quality</li>
-             <li class="list-group-item">best products</li>
-           </ul>
+        <h1>why to by in our store?</h1>
+        <ul class="list-group">
+          <li class="list-group-item">best prices</li>
+          <li class="list-group-item">best quality</li>
+          <li class="list-group-item">best products</li>
+        </ul>
       </mat-card>
     </div>
 
-       <!-- user data section -->
+    <!-- user data section -->
 
     <div class="col-sm-4">
       <mat-card>
-        <h1>available products:</h1>
+        <h3>available products:</h3>
         <p>{{productslenth}} products</p>
         <br>
-        <h1>number of orders</h1>
+        <h3>number of orders</h3>
         <p>{{orderslenght}} orders</p>
+        <div *ngIf="user">
+            <h3>welcome,your usename is:</h3>
+            <p >{{user.name}}</p>
+        <!-- user has cart -->
+        <div *ngIf="user.cart.items[0]">
+          <h3>you have opend cart from date:</h3>
+          <p >{{user.cart.items[0].datecreated}}</p>
+        </div>
+        <!-- user dont have cart-->
+        <div *ngIf="!user.cart.items[0]">
+            <h3>welcome to your furst order</h3>
+        </div>
+      </div>
       </mat-card>
     </div>
 

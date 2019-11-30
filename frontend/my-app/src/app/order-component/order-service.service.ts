@@ -12,6 +12,8 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class OrderService {
   private orders: Order[] = [];
   private UpdatedOrders = new Subject<Order[]>();
+  private userlastorder:any;
+  private Updateduserlasturder=new Subject<any>();
   constructor(private http: HttpClient, private router: Router){ }
 
 
@@ -57,6 +59,26 @@ getallorders() {
 cartitemsUpdatelistener() {
   return this.UpdatedOrders.asObservable();
 }
+// ========================================================================================================================
+// get order of specific user
+// ========================================================================================================================
+getuserlastorder() {
+  this.http.get<any>('http://localhost:3000/showorders')
+      .pipe(map((ordersdata) => {
+          return ordersdata.map(order => {
+              return {
+                userlastorder:order
+              };
+          });
+      }))
+      .subscribe((transfotmporders) => {
+          this.userlastorder = transfotmporders;
+          this.Updateduserlasturder.next([...this.userlastorder]);
+      });
+}
 
+getUpdateduserlasturder() {
+  return this.Updateduserlasturder.asObservable();
+}
 
 }

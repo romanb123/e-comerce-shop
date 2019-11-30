@@ -28,17 +28,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use("/images", express.static(path.join(__dirname, 'images')));
-app.use((req, res, next) => {
-  const token =  req.headers.authorization.split(' ')[1];
-decodedToken = jwt.verify(token, "secret_this_should_be_longer");
-  var usrtid=decodedToken.userId;
-  User.findById(usrtid)
-    .then(user => {
-      req.user = user;
-      next();
-    })
-    .catch(err => console.log(err));
-});
+// app.use((req, res, next) => {
+//   const token =  req.headers.authorization.split(' ')[1];
+// decodedToken = jwt.verify(token, "secret_this_should_be_longer");
+//   var usrtid=decodedToken.userId;
+//   User.findById(usrtid)
+//     .then(user => {
+//       req.user = user;
+//       next();
+//     })
+//     .catch(err => console.log(err));
+// });
 // app.use((req, res, next) => {
 //  console.log(req.body);
 // });

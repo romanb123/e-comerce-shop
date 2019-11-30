@@ -54,7 +54,7 @@ router.post('/addproduct',multer({storage:storage}).single("image"), function(re
 router.get('/products', function(req, res, next) {
   Product.find().populate()
   .then(products => {
-    console.log(products);
+    // console.log(products);
     res.send(products);
   })
   .catch(err => {

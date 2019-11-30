@@ -1,12 +1,26 @@
-  
-const jwt = require("jsonwebtoken");
+var User = require('../models/usermodel');
+const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  let decodedToken;
   try {
-    const token = req.headers.authorization.split(" ")[1];
-    jwt.verify(token, "secret_this_should_be_longer");
-    next();
-  } catch (error) {
-    res.status(401).json({ message: "Auth failed!" });
+    decodedToken = jwt.verify(token, "secret_this_should_be_longer");
+  } catch (err) {
+    err.statusCode = 500;
+    throw err;
   }
+  if (!decodedToken) {
+    const error = new Error('Not authenticated.');
+    error.statusCode = 401;
+    throw error;
+  }
+  var usrtid=decodedToken.userId;
+  User.findById(usrtid)
+  .then(user => {
+    req.user = user;
+    console.log(req.user+"fff");
+    next();
+  })
+  .catch(err => console.log(err));
 };

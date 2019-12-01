@@ -84,7 +84,7 @@ return this.messageApdateListener.asObservable();
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
           console.log(expirationDate);
-          this.saveAuthData(token, expirationDate);
+          this.saveAuthData(token, expirationDate,user);
           // this.router.navigate(['/']);
 
         }
@@ -92,9 +92,10 @@ return this.messageApdateListener.asObservable();
       })
   }
 
-  private saveAuthData(token: string, expirationDate: Date) {
+  private saveAuthData(token: string, expirationDate: Date,user:any) {
     localStorage.setItem("token", token);
     localStorage.setItem("expiration", expirationDate.toISOString());
+    localStorage.setItem("user", JSON.stringify(user));
   }
   
   autoAuthUser() {
@@ -107,6 +108,9 @@ return this.messageApdateListener.asObservable();
     if (expiresIn > 0) {
       this.token = authInformation.token;
       this.isAuthenticated = true;
+      const user = authInformation.user;
+      this.user = user;
+      this.updateduser.next(authInformation.user);
       this.setAuthTimer(expiresIn / 1000);
       this.authStatusListener.next(true);
     }
@@ -119,6 +123,7 @@ return this.messageApdateListener.asObservable();
   }
   logout() {
     this.token = null;
+    this.user=null;
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
     this.clearAuthData();
@@ -128,16 +133,19 @@ return this.messageApdateListener.asObservable();
   private clearAuthData() {
     localStorage.removeItem("token");
     localStorage.removeItem("expiration");
+    localStorage.removeItem("user");
   }
   private getAuthData() {
     const token = localStorage.getItem("token");
     const expirationDate = localStorage.getItem("expiration");
+    const user = JSON.parse(localStorage.getItem("user"));
     if (!token || !expirationDate) {
       return;
     }
     return {
       token: token,
-      expirationDate: new Date(expirationDate)
+      expirationDate: new Date(expirationDate),
+      user:user
     }
   }
 }

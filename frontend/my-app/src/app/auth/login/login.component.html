@@ -53,10 +53,17 @@
           <h3>you have opend cart from date:</h3>
           <p >{{user.cart.items[0].datecreated}}</p>
         </div>
-        <!-- user dont have cart-->
-        <div *ngIf="!user.cart.items[0]">
-            <h3>welcome to your furst order</h3>
+        <div  *ngIf="!user.cart.items[0]">
+        <!-- new user witout opend cart-->
+        <div *ngIf="lastorder">
+            <h3>your last order is from date:</h3>
+            <p >{{lastorder[lastorder.length-1].userlastorder.datecreated}}</p>
         </div>
+          <!-- old user  witout opend cart-->
+        <div *ngIf="!lastorder">
+          <h3>welcome to your furst order</h3>
+      </div>
+    </div>
       </div>
       </mat-card>
     </div>

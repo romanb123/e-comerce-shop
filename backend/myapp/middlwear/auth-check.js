@@ -19,6 +19,7 @@ module.exports = (req, res, next) => {
   User.findById(usrtid)
   .then(user => {
     req.user = user;
+    req.userid=usrtid;
     console.log(req.user+"fff");
     next();
   })

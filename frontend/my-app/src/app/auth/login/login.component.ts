@@ -56,7 +56,8 @@ export class Logincomponent implements OnInit {
     // ========================================================================================================================
     // getuserdata
     // ======================================================================================================================== 
-    this.user=this.authService.getuser();
+    this.authService.getuserdata();
+    this.authService.getuser();
     this.usersub = this.authService.getuserupdated()
       .subscribe((user) => {
         this.user = user;

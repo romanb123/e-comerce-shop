@@ -3,6 +3,7 @@ var router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 var User = require('../models/usermodel');
+var auth=require('../middlwear/auth-check');
 var passport;
 var email;
 var password;
@@ -120,6 +121,16 @@ router.post("/login", (req, res, next) => {
         message: "Auth failed"
       });
     });
+});
+
+
+router.get('/userdata',auth,function(req, res, next) {
+  User.findById(req.userid)
+    .then(user => {
+      console.log(user);
+      res.send(user);
+    })
+    .catch(err => console.log(err));
 });
 
 

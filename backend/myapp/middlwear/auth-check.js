@@ -19,8 +19,9 @@ module.exports = (req, res, next) => {
   User.findById(usrtid)
   .then(user => {
     req.user = user;
-    req.userid=usrtid;
-    console.log(req.user+"fff");
+    req.userid=user._id;
+    req.userrole=user.role;
+    console.log(req.user+"fff"+req.userid+"fff"+req.userrole);
     next();
   })
   .catch(err => console.log(err));

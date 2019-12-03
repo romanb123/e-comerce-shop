@@ -8,18 +8,20 @@ import { Authdata } from "./auth.model";
 @Injectable({ providedIn: "root" })
 export class AuthService {
   private token: string;
-  private user:any;
+  private user: any;
   private updateduser = new Subject<any>();
+  private role: any;
+  private updatedrole = new Subject<any>();
   private isAuthenticated = false;
   private tokenTimer: any;
-  private completed= false;
+  private completed = false;
   private completedStatusListener = new Subject<boolean>();
-  private message:string;
+  private message: string;
   private messageApdateListener = new Subject<string>();
   private authStatusListener = new Subject<boolean>();
 
 
-  constructor(private http: HttpClient,private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
   getToken() {
     return this.token;
   }
@@ -35,32 +37,32 @@ export class AuthService {
   getIsAuth() {
     return this.isAuthenticated;
   }
-  register_step1(passport: string, email: string,password:string,password_confirm:string) {
-    const authData: any = {passport: passport, email: email,password:password,password_confirm:password_confirm};
-    this.http.post<{value:boolean,message:string}>("http://localhost:3000/register_step1", authData)
+  register_step1(passport: string, email: string, password: string, password_confirm: string) {
+    const authData: any = { passport: passport, email: email, password: password, password_confirm: password_confirm };
+    this.http.post<{ value: boolean, message: string }>("http://localhost:3000/register_step1", authData)
       .subscribe(response => {
         console.log(response.value);
-        this.message=response.message;
-        this.completed=response.value;
+        this.message = response.message;
+        this.completed = response.value;
         this.completedStatusListener.next(response.value);
         this.messageApdateListener.next(response.message);
       });
   }
   complitescheck() {
     return this.completed;
-}
-getcomplitedStatusListener() {
-  return this.completedStatusListener.asObservable();
-}
+  }
+  getcomplitedStatusListener() {
+    return this.completedStatusListener.asObservable();
+  }
 
-getmessage() {
-  return this.message;
-}
-updatedMessageLissenter() {
-return this.messageApdateListener.asObservable();
-}
+  getmessage() {
+    return this.message;
+  }
+  updatedMessageLissenter() {
+    return this.messageApdateListener.asObservable();
+  }
   createUser(city: string, street: string, name: string, lastname: string) {
-    const authData: any = {city: city, street: street, name: name, lastname: lastname};
+    const authData: any = { city: city, street: street, name: name, lastname: lastname };
     this.http.post("http://localhost:3000/register", authData)
       .subscribe(response => {
         console.log(response);
@@ -68,8 +70,8 @@ return this.messageApdateListener.asObservable();
   }
 
   login(email: string, password: string) {
-    const authData: Authdata = {email: email, password: password};
-    this.http.post<{token: string,expiresIn: number}>("http://localhost:3000/login", authData)
+    const authData: Authdata = { email: email, password: password };
+    this.http.post<{ token: string, expiresIn: number, role: string }>("http://localhost:3000/login", authData)
       .subscribe(response => {
         const token = response.token;
         this.token = token;
@@ -78,10 +80,13 @@ return this.messageApdateListener.asObservable();
           this.setAuthTimer(expiresInDuration);
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
+          const role = response.role;
+          this.role = role;
+          this.updatedrole.next(response.role);
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
           console.log(expirationDate);
-          this.saveAuthData(token, expirationDate);
+          this.saveAuthData(token, expirationDate, role);
           // this.router.navigate(['/']);
 
         }
@@ -91,23 +96,24 @@ return this.messageApdateListener.asObservable();
 
 
 
-  getuserdata(){
+  getuserdata() {
     return this.http.get<any>
-    ('http://localhost:3000/userdata').subscribe((transfotmpuser) => {
-      this.user = transfotmpuser;
-      this.updateduser.next(transfotmpuser);
-      console.log(this.user);
-    });;
-}
+      ('http://localhost:3000/userdata').subscribe((transfotmpuser) => {
+        this.user = transfotmpuser;
+        this.updateduser.next(transfotmpuser);
+        console.log(this.user);
+      });;
+  }
 
 
 
-  private saveAuthData(token: string, expirationDate: Date) {
+  private saveAuthData(token: string, expirationDate: Date, role: string) {
     localStorage.setItem("token", token);
     localStorage.setItem("expiration", expirationDate.toISOString());
-   
+    localStorage.setItem("role", role);
+
   }
-  
+
   autoAuthUser() {
     const authInformation = this.getAuthData();
     if (!authInformation) {
@@ -139,16 +145,19 @@ return this.messageApdateListener.asObservable();
   private clearAuthData() {
     localStorage.removeItem("token");
     localStorage.removeItem("expiration");
+    localStorage.removeItem("role");
   }
   private getAuthData() {
     const token = localStorage.getItem("token");
     const expirationDate = localStorage.getItem("expiration");
+    const role = localStorage.getItem("role");
     if (!token || !expirationDate) {
       return;
     }
     return {
       token: token,
       expirationDate: new Date(expirationDate),
+      role: role,
     }
   }
 }

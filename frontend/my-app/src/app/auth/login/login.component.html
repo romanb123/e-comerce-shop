@@ -5,8 +5,8 @@
 
     <div class="col-sm-4">
       <mat-card>
-        <mat-spinner *ngIf="loading"></mat-spinner>
-        <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!loading">
+        <h1 *ngIf="user">your role is :{{user.role}}</h1>
+        <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!user">
           <mat-form-field>
             <input matInput name="email" ngModel type="email" placeholder="E-Mail" #emailInput="ngModel" required email>
             <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>

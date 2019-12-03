@@ -17,6 +17,8 @@ export class Logincomponent implements OnInit {
   orderslenght: any;
   user: any;
   private usersub: Subscription;
+  role: any;
+  private rolesub: Subscription;
   lastorder: any;
   private lastorderusersub: Subscription;
 
@@ -34,7 +36,7 @@ export class Logincomponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
     // ========================================================================================================================
     // getproducrsnumber
     // ========================================================================================================================
@@ -56,7 +58,8 @@ export class Logincomponent implements OnInit {
     // ========================================================================================================================
     // getuserdata
     // ======================================================================================================================== 
-    this.authService.getuserdata();
+
+    this.authService.updateuserdata();
     this.authService.getuser();
     this.usersub = this.authService.getuserupdated()
       .subscribe((user) => {
@@ -71,8 +74,13 @@ export class Logincomponent implements OnInit {
       });
 
     // ========================================================================================================================
-    // getlastorderdata
+    // getrole
     // ======================================================================================================================== 
-
+    // this.role=this.authService.getrole();
+    // this.rolesub = this.authService.getroleupdated()
+    //   .subscribe((role) => {
+    //     this.role = role;
+    //     console.log(this.role);
+    //   });
   }
 }

@@ -31,6 +31,16 @@ export class AuthService {
   getuserupdated() {
     return this.updateduser.asObservable();
   }
+
+
+  getrole() {
+    return this.role;
+  }
+  getroleupdated() {
+    return this.updatedrole.asObservable();
+  }
+  
+
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
   }
@@ -71,7 +81,7 @@ export class AuthService {
 
   login(email: string, password: string) {
     const authData: Authdata = { email: email, password: password };
-    this.http.post<{ token: string, expiresIn: number, role: string }>("http://localhost:3000/login", authData)
+    this.http.post<{ token: string, expiresIn: number, role: string,user:any }>("http://localhost:3000/login", authData)
       .subscribe(response => {
         const token = response.token;
         this.token = token;
@@ -80,6 +90,8 @@ export class AuthService {
           this.setAuthTimer(expiresInDuration);
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
+          this.user = response.user;
+          this.updateduser.next(response.user);
           const role = response.role;
           this.role = role;
           this.updatedrole.next(response.role);
@@ -96,7 +108,7 @@ export class AuthService {
 
 
 
-  getuserdata() {
+  updateuserdata() {
     return this.http.get<any>
       ('http://localhost:3000/userdata').subscribe((transfotmpuser) => {
         this.user = transfotmpuser;

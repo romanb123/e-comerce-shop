@@ -11,8 +11,11 @@ import { AuthService } from "../auth/auth.servise";
 export class NavbarComponent implements OnInit, OnDestroy{
 
     userIsAuthenticated = false;
-
     private authListenerSubs: Subscription;
+    // ==============================================
+    userrole:any;
+    private updateduserrole: Subscription; 
+    // ============================================== 
     constructor(private authService: AuthService) {}
 
 
@@ -23,6 +26,12 @@ export class NavbarComponent implements OnInit, OnDestroy{
         .getAuthStatusListener()
         .subscribe(isAuthenticated => {
           this.userIsAuthenticated = isAuthenticated;
+        });
+        // ============================================
+        this.userrole=this.authService.getrole();
+        this.updateduserrole=this.authService.getroleupdated()
+        .subscribe(role => {
+          this.userrole = role;
         });
     }
     ngOnDestroy() {

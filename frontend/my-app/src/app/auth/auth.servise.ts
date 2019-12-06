@@ -7,31 +7,47 @@ import { Authdata } from "./auth.model";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
+  // token
   private token: string;
+  // user+apdateduser
   private user: any;
   private updateduser = new Subject<any>();
+   // role+apdaterole
   private role: any;
   private updatedrole = new Subject<any>();
+  // if is auth+auth status
   private isAuthenticated = false;
+  private authStatusListener = new Subject<boolean>();
+  // tokentimer
   private tokenTimer: any;
+  // completed first registration step
   private completed = false;
   private completedStatusListener = new Subject<boolean>();
+   // first registration step response from server
   private message: string;
   private messageApdateListener = new Subject<string>();
-  private authStatusListener = new Subject<boolean>();
+  
 
 
   constructor(private http: HttpClient, private router: Router) { }
+//======================================================================================================================
+// get token
+//======================================================================================================================
   getToken() {
     return this.token;
   }
+//======================================================================================================================
+// get user data
+//======================================================================================================================
   getuser() {
     return this.user;
   }
   getuserupdated() {
     return this.updateduser.asObservable();
   }
-
+//======================================================================================================================
+// get role data
+//======================================================================================================================
 
   getrole() {
     return this.role;
@@ -40,6 +56,10 @@ export class AuthService {
     return this.updatedrole.asObservable();
   }
   
+//======================================================================================================================
+// get auth status
+//======================================================================================================================
+
 
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
@@ -47,6 +67,9 @@ export class AuthService {
   getIsAuth() {
     return this.isAuthenticated;
   }
+//======================================================================================================================
+// register step 1
+//======================================================================================================================
   register_step1(passport: string, email: string, password: string, password_confirm: string) {
     const authData: any = { passport: passport, email: email, password: password, password_confirm: password_confirm };
     this.http.post<{ value: boolean, message: string }>("http://localhost:3000/register_step1", authData)
@@ -58,6 +81,9 @@ export class AuthService {
         this.messageApdateListener.next(response.message);
       });
   }
+//======================================================================================================================
+//check ih  register step 1 completed
+//======================================================================================================================
   complitescheck() {
     return this.completed;
   }
@@ -65,12 +91,19 @@ export class AuthService {
     return this.completedStatusListener.asObservable();
   }
 
+//======================================================================================================================
+//get response from server if the values of step 1 are valid
+//======================================================================================================================
+
   getmessage() {
     return this.message;
   }
   updatedMessageLissenter() {
     return this.messageApdateListener.asObservable();
   }
+//======================================================================================================================
+//register step 2-filan step
+//======================================================================================================================
   createUser(city: string, street: string, name: string, lastname: string) {
     const authData: any = { city: city, street: street, name: name, lastname: lastname };
     this.http.post("http://localhost:3000/register", authData)
@@ -78,7 +111,9 @@ export class AuthService {
         console.log(response);
       });
   }
-
+//======================================================================================================================
+//login
+//======================================================================================================================
   login(email: string, password: string) {
     const authData: Authdata = { email: email, password: password };
     this.http.post<{ token: string, expiresIn: number, role: string,user:any }>("http://localhost:3000/login", authData)
@@ -107,7 +142,9 @@ export class AuthService {
   }
 
 
-
+//======================================================================================================================
+//update user data if user return to first screen
+//======================================================================================================================
   updateuserdata() {
     return this.http.get<any>
       ('http://localhost:3000/userdata').subscribe((transfotmpuser) => {
@@ -117,7 +154,9 @@ export class AuthService {
       });;
   }
 
-
+//======================================================================================================================
+//save auth data to local storage
+//======================================================================================================================
 
   private saveAuthData(token: string, expirationDate: Date, role: string) {
     localStorage.setItem("token", token);
@@ -125,7 +164,9 @@ export class AuthService {
     localStorage.setItem("role", role);
 
   }
-
+//======================================================================================================================
+//auto auth logged user
+//======================================================================================================================
   autoAuthUser() {
     const authInformation = this.getAuthData();
     if (!authInformation) {
@@ -140,12 +181,20 @@ export class AuthService {
       this.authStatusListener.next(true);
     }
   }
+
+//======================================================================================================================
+//set timer of validity of the token
+//======================================================================================================================
   private setAuthTimer(duration: number) {
     console.log("Setting timer: " + duration);
     this.tokenTimer = setTimeout(() => {
       this.logout();
     }, duration * 1000);
   }
+
+//======================================================================================================================
+//logout
+//======================================================================================================================
   logout() {
     this.token = null;
     this.isAuthenticated = false;
@@ -153,12 +202,17 @@ export class AuthService {
     this.clearAuthData();
     this.router.navigate(['/']);
   }
-
+//======================================================================================================================
+//remove auth data from local storage
+//======================================================================================================================
   private clearAuthData() {
     localStorage.removeItem("token");
     localStorage.removeItem("expiration");
     localStorage.removeItem("role");
   }
+//======================================================================================================================
+//get auth data from local storage
+//======================================================================================================================
   private getAuthData() {
     const token = localStorage.getItem("token");
     const expirationDate = localStorage.getItem("expiration");

@@ -56,7 +56,7 @@ router.post('/makeorder',auth, function(req, res, next) {
     .catch(err => console.log(err));
   });
 
-  router.get('/showallorders',auth, function(req, res, next) {
+  router.get('/showallorders',function(req, res, next) {
     Order.find()
     .then(orders => {
       console.log(orders);

@@ -198,9 +198,11 @@ export class AuthService {
   logout() {
     this.token = null;
     this.isAuthenticated = false;
+    this.user = null;
+    this.updateduser.next(null);
     this.authStatusListener.next(false);
     this.clearAuthData();
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 //======================================================================================================================
 //remove auth data from local storage

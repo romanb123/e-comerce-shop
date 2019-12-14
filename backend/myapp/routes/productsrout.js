@@ -94,11 +94,11 @@ router.get('/categoryproduct/:productcategory',auth,function(req, res, next) {
     .catch(err => console.log(err));
 });
 
-router.put('/updateproduct/:id',multer({storage:storage}).single("image"),auth,admincheck,function (req, res, next) {
+router.put('/updateproduct/:id',multer({storage:storage}).single("image"),function (req, res, next) {
   let image = req.body.image;
   if (req.file) {
     const url = req.protocol + "://" + req.get("host");
-    imagePath = url + "/images/" + req.file.filename
+    image = url + "/images/" + req.file.filename
   }
   const product = new Product({
       _id: req.params.id,

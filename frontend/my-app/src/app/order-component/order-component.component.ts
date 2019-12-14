@@ -36,18 +36,23 @@ export class OrderComponentComponent implements OnInit {
          this.loading = false;
          this.cartitems = Cartitem;
          console.log(this.cartitems);
+          //  =================get total price=========================
+          var totalprice=0;
+          this.cartitems.forEach(function(element:any){
+            console.log(element);
+           totalprice=totalprice+(element.item.quantity*element.item.productId.price);
+           console.log(totalprice);
+          });
         //  =================order to file output=========================
-        const ordertoprint=[];
-        this.cartitems.forEach(function(element:any){
-          ordertoprint.push({
-           name:element.item.productId.name, 
-           price:element.item.productId.price, 
-           quantity:element.item.quantity, 
-           total_price:element.item.quantity*element.item.productId.price 
-          })
+        var ordertoprint='';
+        this.cartitems.map(function(element:any){
+         return(  ordertoprint+=`Name:${element.item.productId.name},price:${element.item.productId.price},quantity:
+         ${element.item.quantity},total_price:${element.item.quantity*element.item.productId.price} \r \n`
+            )
         });
-        console.log(JSON.stringify(ordertoprint));
-        const data =JSON.stringify(ordertoprint);
+        
+        console.log(ordertoprint);
+        const data =`${ordertoprint}\r \n total order price:${totalprice}`;
         const blob = new Blob([data], { type: 'application/octet-stream' });
     
         this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));

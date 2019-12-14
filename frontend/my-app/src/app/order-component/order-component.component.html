@@ -18,6 +18,9 @@
           <p>cart created at {{cartitems[0].item.datecreated}}</p>
           <button mat-button color="warn" (click)="onClearCart()">clearcart</button>
         </div>
+        <div>
+          <a [href]="fileUrl" download="file.txt">Download order to file</a>
+        </div>
         <hr class="d-sm-none">
       </div>
       <div class="col-sm-8">

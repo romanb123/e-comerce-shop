@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { CartItem } from '../products/cartitemmodel';
+import { DomSanitizer } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators, FormControlName } from '@angular/forms';
 import { Productservice } from '../products/product-service';
 import { OrderService } from './order-service.service';
@@ -12,6 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class OrderComponentComponent implements OnInit {
   cartitems: CartItem[] = [];
+  fileUrl;
   private productsub: Subscription;
   private cartitemsub: Subscription;
   loading = false;
@@ -20,7 +22,7 @@ export class OrderComponentComponent implements OnInit {
   private postsSub: Subscription;
   private authStatusSub: Subscription;
   productservice: Productservice;
-  constructor(productservice: Productservice,private authService: AuthService,private orderservice:OrderService) {
+  constructor(productservice: Productservice,private authService: AuthService,private orderservice:OrderService,private sanitizer: DomSanitizer) {
     this.productservice = productservice;
     this.orderservice = orderservice;
   }
@@ -34,14 +36,29 @@ export class OrderComponentComponent implements OnInit {
          this.loading = false;
          this.cartitems = Cartitem;
          console.log(this.cartitems);
+        //  =================order to file output=========================
+        const ordertoprint=[];
+        this.cartitems.forEach(function(element:any){
+          ordertoprint.push({
+           name:element.item.productId.name, 
+           price:element.item.productId.price, 
+           quantity:element.item.quantity, 
+           total_price:element.item.quantity*element.item.productId.price 
+          })
+        });
+        console.log(JSON.stringify(ordertoprint));
+        const data =JSON.stringify(ordertoprint);
+        const blob = new Blob([data], { type: 'application/octet-stream' });
+    
+        this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
        });
+         //  =================auth check=========================
        this.userIsAuthenticated = this.authService.getIsAuth();
        this.authStatusSub = this.authService
          .getAuthStatusListener()
          .subscribe(isAuthenticated => {
            this.userIsAuthenticated = isAuthenticated;
          });
-
         //  form
         this.form = new FormGroup({
           city: new FormControl(null, { validators: [Validators.required] }), 

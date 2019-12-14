@@ -1,0 +1,8 @@
+user:
+mail:user1@mail.com
+password:user1
+
+
+admin:
+mail:admin@mail.com
+password:admin

@@ -1,0 +1,6 @@
+{"_id":{"$oid":"5df4e7be2d5cf71e509f03c8"},"name":"table","category":"furniture","price":"123","image":"http://localhost:3000/images/table-1576331198416.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5df4f42db4339526083fffcb"},"name":"chair","category":"furniture","price":"12","image":"http://localhost:3000/images/chair-1576334381706.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5df4f447b4339526083fffcc"},"name":"shirt","category":"clothes","price":"6","image":"http://localhost:3000/images/shirt-1576334407302.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5df4f592b4339526083fffcd"},"name":"shirt2","category":"clothes","price":"9","image":"http://localhost:3000/images/shirt2-1576334738144.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5df4f5b5b4339526083fffce"},"name":"milk","category":"food","price":"4","image":"http://localhost:3000/images/milk-1576334773396.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5df4f5f4b4339526083fffcf"},"name":"hamburger","category":"food","price":"34","image":"http://localhost:3000/images/hamburger-1576334836659.jpg","__v":{"$numberInt":"0"}}

@@ -36,15 +36,15 @@
             <div class="form-group">
               <label for="sel1">select category:</label>
               <select class="form-control" id="sel1" formControlName="category">
-                <option>furniture</option>
+                <option>clothes</option>
                 <option>food</option>
-                <option>ccccc</option>
-                <option>ddddddddddddd</option>
+                <option>furniture</option>
               </select>
               <br>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit category</button>
           </form>
+          <br>
           <button type="submit" class="btn btn-primary" (click)="backtoallproducts()">back to all products</button>
         </mat-card>
       <div class="row" *ngIf="products.length > 0 && !loading">
@@ -55,9 +55,9 @@
             <p class="card-text">price: {{product.price}}</p>
             <img class="card-img-top" [src]="product.image" [alt]="product.name" style="width:100%">
             <mat-action-row *ngIf="userIsAuthenticated">
-              <button mat-button color="warn" (click)="onAddToCart(product.id)">addtocart</button>
-              <button mat-button color="warn" (click)="onDeleteFromCart(product.id)">deletefromcart</button>
-              <a mat-button color="primary" [routerLink]="['/edit',product.id]">edit</a>
+              <button mat-button color="warn" (click)="onAddToCart(product.id)" *ngIf="userIsAuthenticated&&userrole=='user'">addtocart</button>
+              <button mat-button color="warn" (click)="onDeleteFromCart(product.id)"*ngIf="userIsAuthenticated&&userrole=='user'">deletefromcart</button>
+              <a mat-button color="primary" [routerLink]="['/edit',product.id]"*ngIf="userIsAuthenticated&&userrole=='admin'">edit</a>
             </mat-action-row>
           </div>
         </div>

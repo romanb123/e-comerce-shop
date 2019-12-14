@@ -16,6 +16,8 @@ export class NavbarComponent implements OnInit, OnDestroy{
     userrole:any;
     private updateduserrole: Subscription; 
     // ============================================== 
+    user: any;
+    private usersub: Subscription;
     constructor(private authService: AuthService) {}
 
 
@@ -33,6 +35,17 @@ export class NavbarComponent implements OnInit, OnDestroy{
         .subscribe(role => {
           this.userrole = role;
         });
+           // ========================================================================================================================
+    // getuserdata
+    // ======================================================================================================================== 
+
+    this.authService.updateuserdata();
+    this.authService.getuser();
+    this.usersub = this.authService.getuserupdated()
+      .subscribe((user) => {
+        this.user = user;
+        console.log(this.user);
+      });
     }
     ngOnDestroy() {
       this.authListenerSubs.unsubscribe();

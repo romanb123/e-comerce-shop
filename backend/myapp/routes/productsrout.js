@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 var Product=require('../models/productsmodel');
 const multer = require("multer");
+var auth=require('../middlwear/auth-check');
+var usercheck=require('../middlwear/user-check');
+var admincheck=require('../middlwear/admin-check');
+
 
 const type = {
   "image/png": "png",
@@ -28,7 +32,7 @@ const storage = multer.diskStorage({
   }
 });
 /* GET users listing. */
-router.post('/addproduct',multer({storage:storage}).single("image"), function(req, res, next) {
+router.post('/addproduct',multer({storage:storage}).single("image"),auth,admincheck, function(req, res, next) {
   const url=req.protocol+'://'+req.get("host");
   const name = req.body.name;
   const category = req.body.category;
@@ -51,7 +55,7 @@ router.post('/addproduct',multer({storage:storage}).single("image"), function(re
     });
 });
 
-router.get('/products', function(req, res, next) {
+router.get('/products',auth,function(req, res, next) {
   Product.find().populate()
   .then(products => {
     // console.log(products);
@@ -61,7 +65,7 @@ router.get('/products', function(req, res, next) {
     console.log(err);
   });
 });
-router.get('/singleproduct/:productId', function(req, res, next) {
+router.get('/singleproduct/:productId',auth,admincheck,function(req, res, next) {
   const prodId = req.params.productId;
   Product.findById(prodId)
     .then(product => {
@@ -70,7 +74,7 @@ router.get('/singleproduct/:productId', function(req, res, next) {
     })
     .catch(err => console.log(err));
 });
-router.get('/searchproduct/:productname', function(req, res, next) {
+router.get('/searchproduct/:productname',auth,function(req, res, next) {
   const productname = req.params.productname;
   Product.find({"name":productname})
     .then(product => {
@@ -80,7 +84,7 @@ router.get('/searchproduct/:productname', function(req, res, next) {
     .catch(err => console.log(err));
 });
 
-router.get('/categoryproduct/:productcategory', function(req, res, next) {
+router.get('/categoryproduct/:productcategory',auth,function(req, res, next) {
   const productcategory = req.params.productcategory;
   Product.find({"category":productcategory})
     .then(product => {
@@ -90,7 +94,7 @@ router.get('/categoryproduct/:productcategory', function(req, res, next) {
     .catch(err => console.log(err));
 });
 
-router.put('/updateproduct/:id',multer({storage:storage}).single("image"), function (req, res, next) {
+router.put('/updateproduct/:id',multer({storage:storage}).single("image"),auth,admincheck,function (req, res, next) {
   let image = req.body.image;
   if (req.file) {
     const url = req.protocol + "://" + req.get("host");
@@ -109,13 +113,13 @@ router.put('/updateproduct/:id',multer({storage:storage}).single("image"), funct
   })
 });
 
-router.post('/deleteproduct', function(req, res, next) {
-  const prodId = req.body.productId;
-  Product.findByIdAndRemove(prodId)
-    .then(() => {
-      console.log(prodId);
-      res.json('deleted');
-    })
-});
+// router.post('/deleteproduct', function(req, res, next) {
+//   const prodId = req.body.productId;
+//   Product.findByIdAndRemove(prodId)
+//     .then(() => {
+//       console.log(prodId);
+//       res.json('deleted');
+//     })
+// });
 
 module.exports = router;

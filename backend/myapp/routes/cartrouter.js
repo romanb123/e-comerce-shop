@@ -3,10 +3,11 @@ var router = express.Router();
 var Product=require('../models/productsmodel');
 var User=require('../models/usermodel');
 var auth=require('../middlwear/auth-check');
+var usercheck=require('../middlwear/user-check');
 
 /* GET users listing. */
 
-router.post('/addtocart',auth, function(req, res, next) {
+router.post('/addtocart',auth,usercheck,function(req, res, next) {
   console.log(req.user);
     const prodId = req.body.productId;
     Product.findById(prodId)
@@ -21,7 +22,7 @@ router.post('/addtocart',auth, function(req, res, next) {
       });
 });
 
-router.post('/deletefromcart',auth,function(req, res, next) {
+router.post('/deletefromcart',auth,usercheck,function(req, res, next) {
   const prodId = req.body.productId;
   req.user
     .removeFromCart(prodId)
@@ -31,7 +32,7 @@ router.post('/deletefromcart',auth,function(req, res, next) {
     .catch(err => console.log(err));
 });
 
-router.post('/clearcart',auth,function(req, res, next) {
+router.post('/clearcart',auth,usercheck,function(req, res, next) {
   return req.user.clearCart()
     .then(result => {
       res.json("cleared"+result);
@@ -44,7 +45,7 @@ router.post('/clearcart',auth,function(req, res, next) {
 
 
 
-router.get('/viewcart',auth,function(req, res, next) {
+router.get('/viewcart',auth,usercheck,function(req, res, next) {
   console.log(req.user+"ggggggggggggggggggggggggggggggggg");
     req.user
       .populate('cart.items.productId')

@@ -4,11 +4,12 @@ var Product=require('../models/productsmodel');
 var User=require('../models/usermodel');
 var Order=require('../models/ordermodel');
 var auth=require('../middlwear/auth-check');
+var usercheck=require('../middlwear/user-check');
 var d = new Date();
 
 
 
-router.post('/makeorder',auth, function(req, res, next) {
+router.post('/makeorder',auth,usercheck,function(req, res, next) {
   console.log(req.body);
     req.user
     .populate('cart.items.productId')
@@ -48,7 +49,7 @@ router.post('/makeorder',auth, function(req, res, next) {
 
 
 
-  router.get('/showorders',auth, function(req, res, next) {
+  router.get('/showorders',auth,usercheck,function(req, res, next) {
     Order.find({ 'user.userId': req.user._id })
     .then(orders => {
       res.send(orders);

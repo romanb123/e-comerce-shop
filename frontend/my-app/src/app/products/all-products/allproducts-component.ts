@@ -19,7 +19,10 @@ export class Allproductscomponent implements OnInit, OnDestroy {
   userIsAuthenticated = false;
   private postsSub: Subscription;
   private authStatusSub: Subscription;
-
+ // ==============================================
+ userrole:any;
+ private updateduserrole: Subscription; 
+ // ============================================== 
   productservice: Productservice;
   constructor(productservice: Productservice,private authService: AuthService) {
     this.productservice = productservice;
@@ -49,6 +52,12 @@ export class Allproductscomponent implements OnInit, OnDestroy {
         .subscribe(isAuthenticated => {
           this.userIsAuthenticated = isAuthenticated;
         });
+           // ======get user role================
+           this.userrole=this.authService.getrole();
+           this.updateduserrole=this.authService.getroleupdated()
+           .subscribe(role => {
+             this.userrole = role;
+           });
          // ===========get cart  data=========================
          this.form = new FormGroup({
           search: new FormControl(null, { validators: [Validators.required] }),

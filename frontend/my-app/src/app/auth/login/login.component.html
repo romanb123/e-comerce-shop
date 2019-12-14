@@ -60,9 +60,12 @@
             <p >{{lastorder[lastorder.length-1].userlastorder.datecreated}}</p>
         </div>
           <!-- old user  witout opend cart-->
-        <div *ngIf="!lastorder">
-          <h3>welcome to your furst order</h3>
+        <div *ngIf="!lastorder&&user.role!='admin'">
+          <h3>welcome to your first order</h3>
       </div>
+      <div *ngIf="user.role=='admin'">
+        <h3>welcome admin</h3>
+    </div>
     </div>
       </div>
       </mat-card>
